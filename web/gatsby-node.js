@@ -1,0 +1,125 @@
+const { format } = require('date-fns')
+
+/**
+ * Implement Gatsby's Node APIs in this file.
+ *
+ * See: https://www.gatsbyjs.org/docs/node-apis/
+ */
+
+async function createCategoryPages(graphql, actions, reporter) {
+  const { createPage } = actions
+  const result = await graphql(`
+    {
+      allSanityCategory(filter: { slug: { current: { ne: null } } }) {
+        edges {
+          node {
+            id
+            title
+            slug {
+              current
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  if (result.errors) throw result.errors
+
+  const categoryEdges = (result.data.allSanityCategory || {}).edges || []
+
+  categoryEdges.forEach(edge => {
+    const title = edge.node.title
+    const slug = edge.node.slug.current
+    const path = `/categories/${slug}/`
+
+    reporter.info(`Creating category page: ${path}`)
+
+    createPage({
+      path,
+      component: require.resolve('./src/templates/category.js'),
+      context: { title, slug }
+    })
+  })
+}
+
+async function createInsightPages(graphql, actions, reporter) {
+  const { createPage } = actions
+  const result = await graphql(`
+    {
+      allSanityPost(filter: { slug: { current: { ne: null } } }) {
+        edges {
+          node {
+            id
+            title
+            _rawExcerpt
+            publishedAt
+            slug {
+              current
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  if (result.errors) throw result.errors
+
+  const postEdges = (result.data.allSanityPost || {}).edges || []
+
+  postEdges.forEach(edge => {
+    const { id, title, slug = {}, publishedAt } = edge.node
+    const dateSegment = format(publishedAt, 'YYYY/MM')
+    const path = `/insight/${dateSegment}/${slug.current}/`
+
+    reporter.info(`Creating insight page: ${path}`)
+
+    createPage({
+      path,
+      component: require.resolve('./src/templates/insight.js'),
+      context: { id, title }
+    })
+  })
+}
+
+async function createStoryPages(graphql, actions, reporter) {
+  const { createPage } = actions
+  const result = await graphql(`
+    {
+      allSanityStory(filter: { slug: { current: { ne: null } } }) {
+        edges {
+          node {
+            id
+            title
+            slug {
+              current
+            }
+          }
+        }
+      }
+    }
+  `)
+
+  if (result.errors) throw result.errors
+
+  const storyEdges = (result.data.allSanityStory || {}).edges || []
+
+  storyEdges.forEach(edge => {
+    const { id, title, slug = {} } = edge.node
+    const path = `/story/${slug.current}/`
+
+    reporter.info(`Creating story page: ${path}`)
+
+    createPage({
+      path,
+      component: require.resolve('./src/templates/story.js'),
+      context: { id, title }
+    })
+  })
+}
+
+exports.createPages = async ({ graphql, actions, reporter }) => {
+  await createCategoryPages(graphql, actions, reporter)
+  await createInsightPages(graphql, actions, reporter)
+  await createStoryPages(graphql, actions, reporter)
+}

@@ -1,0 +1,152 @@
+/* Swiper */
+@import 'swiper/swiper.scss'
+  
+/* Tailwind */
+@tailwind base
+@tailwind components
+@tailwind utilities
+
+/* Imports */
+@import 'animations'
+@import 'variables'
+@import 'pagination'
+@import 'masonry'
+@import 'modals'
+@import 'footer'
+@import 'nav'
+
+/* Colors */
+.bg-brand-primary
+  background: $primary
+.primary
+  color: $primary
+
+/* Box sizing partial styles: */
+/* Apply a natural box layout model to all elements */
+*,
+*:before,
+*:after
+  box-sizing: border-box
+
+/* App */
+html,
+body
+  overflow-x: hidden
+
+html
+  font-size: 18px
+
+body
+  -webkit-overflow-scrolling: touch
+  -webkit-font-smoothing: auto
+  text-rendering: optimizeLegibility
+  font-family: $primary-fonts
+  letter-spacing: -0.5px
+  background: black
+  transition: all 0.2s ease-in-out
+  color: white
+
+textarea,
+button,
+input,
+a
+  transition: all 0.2s ease-in-out
+  border: none
+
+  &:focus
+    box-shadow: none
+    outline: none
+
+button,
+a
+  outline: none
+
+a
+  &:hover
+    opacity: 0.5
+
+.link:visited,
+.link:active,
+.link:focus,
+.link:hover,
+.link:link,
+.link
+  transition: all 250ms cubic-bezier(0.02, 0.01, 0.47, 1)
+
+.link
+  &:hover
+    opacity: 0.5
+
+img
+  &.scale
+    object-fit: contain
+    overflow: hidden
+
+  &.fit
+    object-fit: cover
+    overflow: hidden
+
+.inherit
+  color: inherit
+
+.lh-body
+  line-height: 1.85
+
+.overlay-gradient
+  &:after
+    background: rgba(0, 0, 0, 0.4)
+    position: absolute
+    display: block
+    content: ""
+    height: 100%
+    width: 100%
+    right: 0
+    left: 0
+    top: 0
+
+    @media screen and (min-width: 60em)
+      background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 50%)
+
+.overlay
+  &:after
+    background: rgba(0, 0, 0, 0.4)
+    position: absolute
+    display: block
+    content: ""
+    height: 100%
+    width: 100%
+    right: 0
+    left: 0
+    top: 0
+
+.form
+  input
+    @media screen and (min-width: 60em)
+      flex: 1 1 auto
+
+  button
+    @media screen and (min-width: 60em)
+      flex: 0 0 auto
+
+  input,
+  button
+    @media screen and (max-width: 30em)
+      width: 100%
+
+hr
+  border-top: none
+
+.list
+  ul
+    list-style: disc
+
+p
+  a
+    text-decoration: underline
+    color: $primary
+
+figure
+  margin: 1rem auto
+
+.feature
+  max-height: 64rem
