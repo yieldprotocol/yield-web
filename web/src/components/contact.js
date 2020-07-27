@@ -1,6 +1,5 @@
 import React from 'react'
 import fetch from 'cross-fetch'
-import Recaptcha from 'react-google-recaptcha'
 import { Check } from 'react-feather'
 
 import { logEvent } from '../utils/analytics'
@@ -18,7 +17,6 @@ class Sales extends React.Component {
     super(props)
 
     this.state = {
-      recaptcha: false,
       submitted: false,
       firstname: '',
       lastname: '',
@@ -29,7 +27,6 @@ class Sales extends React.Component {
       email: ''
     }
 
-    this.handleCaptcha = this.handleCaptcha.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -40,12 +37,6 @@ class Sales extends React.Component {
       .join('&')
   }
 
-  handleCaptcha(value) {
-    if (value) {
-      this.setState({ ...this.state, recaptcha: true })
-    }
-  }
-
   handleChange(e) {
     this.setState({ ...this.state, [e.target.name]: e.target.value })
   }
@@ -54,34 +45,32 @@ class Sales extends React.Component {
     event.preventDefault()
 
     const form = event.target
-    if (this.state.recaptcha) {
-      fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: this.encode({
-          'form-name': form.getAttribute('name'),
-          ...this.state
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: this.encode({
+        'form-name': form.getAttribute('name'),
+        ...this.state
+      })
+    })
+      .then(() => {
+        const object = {
+          category: 'Contact',
+          action: 'Submitted Contact Form'
+        }
+        logEvent(object)
+        this.setState({
+          submitted: true,
+          firstname: '',
+          lastname: '',
+          website: '',
+          message: '',
+          country: '',
+          title: '',
+          email: ''
         })
       })
-        .then(() => {
-          const object = {
-            category: 'Contact',
-            action: 'Submitted Contact Form'
-          }
-          logEvent(object)
-          this.setState({
-            submitted: true,
-            firstname: '',
-            lastname: '',
-            website: '',
-            message: '',
-            country: '',
-            title: '',
-            email: ''
-          })
-        })
-        .catch(error => window.alert(error))
-    }
+      .catch(error => window.alert(error))
   }
 
   render() {
@@ -228,14 +217,6 @@ class Sales extends React.Component {
                   onChange={this.handleChange}
                   name="message"
                   value={this.state.message}
-                />
-              </div>
-              {/* RECAPTCHA */}
-              <div className={Control}>
-                <Recaptcha
-                  onChange={this.handleCaptcha}
-                  sitekey="6LdBNa4ZAAAAANqgDrK-tXjPADYc1FtvTYJ7uwAH"
-                  ref="recaptcha"
                 />
               </div>
               <Button outlined full text="Submit form" type="submit" />

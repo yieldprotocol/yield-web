@@ -58,10 +58,6 @@ const Header = class extends React.Component {
         to: '/about'
       },
       {
-        title: 'Services',
-        to: '/services'
-      },
-      {
         title: 'Mission',
         to: '/mission'
       },
@@ -74,8 +70,8 @@ const Header = class extends React.Component {
         to: '/careers'
       },
       {
-        title: 'Insights',
-        to: '/insights'
+        title: 'Blog',
+        to: '/blog'
       }
     ]
 

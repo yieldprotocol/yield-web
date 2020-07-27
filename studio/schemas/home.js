@@ -43,13 +43,6 @@ export default {
       of: [{ type: "stat" }]
     },
     {
-      name: "slide2",
-      title: "Slide 2 Use Split View",
-      description:
-        "If enabled, the UI will use a split panel view to highlight let's say `Digital Native` vs. `For retail`",
-      type: "boolean"
-    },
-    {
       name: "slide2LeftTitle",
       title: "Left side title (default for non-split view)",
       type: "string"

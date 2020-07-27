@@ -14,11 +14,12 @@ const hiddenTypes = [
   "paper",
   "person",
   "post",
+  "services",
   "social",
   "stat",
+  "stories",
   "story",
   "siteSettings",
-  "services",
   "value"
 ];
 
@@ -45,13 +46,9 @@ export default () =>
         )
         .icon(MdBusiness),
       S.listItem()
-        .title("Stories")
-        .schemaType("story")
-        .child(S.documentTypeList("story")),
-      S.listItem()
-        .title("Insights")
+        .title("Blog Posts")
         .schemaType("post")
-        .child(S.documentTypeList("post").title("Insights")),
+        .child(S.documentTypeList("post").title("Blog Posts")),
       S.listItem()
         .title("White Papers")
         .schemaType("paper")
@@ -85,15 +82,6 @@ export default () =>
                 )
                 .icon(FaFile),
               S.listItem()
-                .title("Services")
-                .child(
-                  S.editor()
-                    .id("servicesPage")
-                    .schemaType("services")
-                    .documentId("services2")
-                )
-                .icon(FaFile),
-              S.listItem()
                 .title("Mission")
                 .child(
                   S.editor()
@@ -121,12 +109,12 @@ export default () =>
                 )
                 .icon(FaFile),
               S.listItem()
-                .title("Insights")
+                .title("Blog Posts")
                 .child(
                   S.editor()
                     .id("insightsPage")
                     .schemaType("page")
-                    .documentId("insights")
+                    .documentId("Blog Posts")
                 )
                 .icon(FaFile),
               S.listItem()

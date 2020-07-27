@@ -43,7 +43,7 @@ async function createCategoryPages(graphql, actions, reporter) {
   })
 }
 
-async function createInsightPages(graphql, actions, reporter) {
+async function createBlogPages(graphql, actions, reporter) {
   const { createPage } = actions
   const result = await graphql(`
     {
@@ -70,49 +70,13 @@ async function createInsightPages(graphql, actions, reporter) {
   postEdges.forEach(edge => {
     const { id, title, slug = {}, publishedAt } = edge.node
     const dateSegment = format(publishedAt, 'YYYY/MM')
-    const path = `/insight/${dateSegment}/${slug.current}/`
+    const path = `/blog/${dateSegment}/${slug.current}/`
 
-    reporter.info(`Creating insight page: ${path}`)
-
-    createPage({
-      path,
-      component: require.resolve('./src/templates/insight.js'),
-      context: { id, title }
-    })
-  })
-}
-
-async function createStoryPages(graphql, actions, reporter) {
-  const { createPage } = actions
-  const result = await graphql(`
-    {
-      allSanityStory(filter: { slug: { current: { ne: null } } }) {
-        edges {
-          node {
-            id
-            title
-            slug {
-              current
-            }
-          }
-        }
-      }
-    }
-  `)
-
-  if (result.errors) throw result.errors
-
-  const storyEdges = (result.data.allSanityStory || {}).edges || []
-
-  storyEdges.forEach(edge => {
-    const { id, title, slug = {} } = edge.node
-    const path = `/story/${slug.current}/`
-
-    reporter.info(`Creating story page: ${path}`)
+    reporter.info(`Creating blog page: ${path}`)
 
     createPage({
       path,
-      component: require.resolve('./src/templates/story.js'),
+      component: require.resolve('./src/templates/post.js'),
       context: { id, title }
     })
   })
@@ -120,6 +84,5 @@ async function createStoryPages(graphql, actions, reporter) {
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
   await createCategoryPages(graphql, actions, reporter)
-  await createInsightPages(graphql, actions, reporter)
-  await createStoryPages(graphql, actions, reporter)
+  await createBlogPages(graphql, actions, reporter)
 }

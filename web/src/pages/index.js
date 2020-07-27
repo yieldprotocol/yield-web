@@ -10,7 +10,6 @@ import InsightPreviewGrid from '../components/blog-post-preview-grid'
 import GraphQLErrorList from '../components/graphql-error-list'
 import BlockContent from '../components/block-content'
 import Container from '../components/container'
-import StoryBox from '../components/story-box'
 import Slide2 from '../components/slide-2'
 import Button from '../components/button'
 import SEO from '../components/seo'
@@ -72,47 +71,6 @@ export const query = graphql`
       mainCTAURL
     }
 
-    stories: allSanityStory(limit: 12, sort: { fields: [publishedAt], order: ASC }) {
-      edges {
-        node {
-          id
-          mainImage {
-            crop {
-              _key
-              _type
-              top
-              bottom
-              left
-              right
-            }
-            hotspot {
-              _key
-              _type
-              x
-              y
-              height
-              width
-            }
-            asset {
-              _id
-            }
-            alt
-          }
-          logo {
-            asset {
-              _id
-            }
-            alt
-          }
-          title
-          excerpt
-          slug {
-            current
-          }
-        }
-      }
-    }
-
     posts: allSanityPost(limit: 12, sort: { fields: [publishedAt], order: DESC }) {
       edges {
         node {
@@ -167,9 +125,6 @@ const IndexPage = props => {
   const page = (data || {}).page
   const postNodes = (data || {}).posts
     ? mapEdgesToNodes(data.posts).filter(filterOutDocsWithoutSlugs)
-    : []
-  const storyNodes = (data || {}).stories
-    ? mapEdgesToNodes(data.stories).filter(filterOutDocsWithoutSlugs)
     : []
 
   if (!site) {
@@ -257,7 +212,7 @@ const IndexPage = props => {
           <div className="flex flex-wrap relative w-full">
             {/* Intro */}
             <div
-              className={`relative w-full ${storyNodes && storyNodes.length > 0 ? 'md:w-1/2' : ''}`}
+              className="relative w-full"
             >
               <h1 className="inline-block relative w-full text-3xl md:text-5xl">{page.title}</h1>
               <div className={ParagraphClass}>
@@ -282,24 +237,6 @@ const IndexPage = props => {
                 </div>
               ) : null}
             </div>
-            {/* Story slider */}
-            {page.showStories && storyNodes && storyNodes.length > 0 ? (
-              <div className="relative w-full md:w-1/2">
-                <Swiper {...params}>
-                  {storyNodes.map((story, index) => (
-                    <StoryBox story={story} key={`story-${index}`} />
-                  ))}
-                </Swiper>
-                <div className="inline-block relative w-full my-4">
-                  <button className="inline-block align-middle mr-4 link" onClick={goPrev}>
-                    <ArrowLeft />
-                  </button>
-                  <button className="inline-block align-middle link" onClick={goNext}>
-                    <ArrowRight />
-                  </button>
-                </div>
-              </div>
-            ) : null}
             {/* Stats */}
             {page.stats && page.stats.length > 0 ? (
               <div className="inline-block relative w-full mt-24">
