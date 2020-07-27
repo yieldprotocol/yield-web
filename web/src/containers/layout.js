@@ -9,9 +9,18 @@ const query = graphql`
       title
     }
     companyInfo: sanityCompanyInfo(_id: { regex: "/(drafts.|)companyInfo/" }) {
-      city
       country
+      socials {
+        title
+        image {
+          asset {
+            _id
+          }
+        }
+        url
+      }
       email
+      city
       name
     }
   }

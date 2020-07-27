@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { graphql } from 'gatsby'
 import { ArrowLeft, ArrowRight } from 'react-feather'
-import Swiper from 'react-id-swiper'
 
 import { mapEdgesToNodes, filterOutDocsWithoutSlugs, buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
@@ -65,7 +64,6 @@ export const query = graphql`
           _id
         }
       }
-      showStories
       showBlog
       mainCTA
       mainCTAURL
@@ -111,7 +109,6 @@ export const query = graphql`
 
 const IndexPage = props => {
   const { data, errors } = props
-  const [swiper, setSwiper] = useState(null)
 
   if (errors) {
     return (
@@ -137,33 +134,6 @@ const IndexPage = props => {
     throw new Error(
       'Missing "Pages > Home". Open the studio at http://localhost:3333 and add some content to "Pages > Home" and restart the development server.'
     )
-  }
-
-  const params = {
-    rebuildOnUpdate: false,
-    slidesPerView: 1,
-    spaceBetween: 32,
-    breakpoints: {
-      640: {
-        slidesPerView: 2,
-        spaceBetween: 32
-      }
-    },
-    slideClass: 'swiper-slide',
-    getSwiper: setSwiper,
-    autoplay: true
-  }
-
-  const goNext = () => {
-    if (swiper !== null) {
-      swiper.slideNext()
-    }
-  }
-
-  const goPrev = () => {
-    if (swiper !== null) {
-      swiper.slidePrev()
-    }
   }
 
   const Stat = ({ stat }) => (

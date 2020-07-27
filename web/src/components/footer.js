@@ -4,11 +4,13 @@ import { Link } from 'gatsby'
 import Container from './container'
 
 import { logEvent } from '../utils/analytics'
+import { buildImageObj } from '../lib/helpers'
+import { imageUrlFor } from '../lib/image-url'
 
 const classColumns = 'w-full md:w-4/12 mb-6'
 const classStrong = 'inline-block w-full font-bold text-md mb-4'
 const classLinks =
-  'inline-block w-full md:w-auto font-normal text-gray-300 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
+  'inline-block align-middle w-full md:w-auto font-normal text-gray-600 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
 const year = new Date().getFullYear()
 
 const Footer = class extends React.Component {
@@ -22,7 +24,7 @@ const Footer = class extends React.Component {
   logClick(name) {
     const event = {
       category: 'Social',
-      action: `Clicked ${name}`,
+      action: `Clicked ${name}`
     }
     logEvent(event)
   }
@@ -44,7 +46,7 @@ const Footer = class extends React.Component {
   }
 
   render() {
-    const { country, company, email, city } = this.props
+    const { country, socials, company, email, city } = this.props
 
     const footerLinks = [
       {
@@ -52,44 +54,42 @@ const Footer = class extends React.Component {
         list: [
           {
             title: 'About us',
-            link: '/about',
+            link: '/about'
           },
           {
             title: 'Mission',
-            link: '/mission',
+            link: '/mission'
           },
           {
             title: 'Careers',
-            link: '/careers',
-          },
-        ],
+            link: '/careers'
+          }
+        ]
       },
       {
         title: 'Resources',
         list: [
           {
             title: 'Insights',
-            link: '/insights',
+            link: '/insights'
           },
           {
             title: 'White papers',
-            link: '/white-papers',
-          },
-        ],
+            link: '/white-papers'
+          }
+        ]
       },
       {
-        title: 'Services',
-        list: [
-          {
-            title: 'View all our services',
-            link: '/services',
-          },
-          {
-            title: 'Get in touch',
-            link: '/contact',
-          },
-        ],
-      },
+        title: 'Follow us',
+        list: socials.map(social => {
+          return {
+            external: true,
+            title: social.title,
+            image: social.image,
+            link: social.url
+          }
+        })
+      }
     ]
 
     const LinkComponent = ({ title, list }) => (
@@ -100,6 +100,7 @@ const Footer = class extends React.Component {
             <li key={`list-${index}`}>
               {item.external ? (
                 <a className={classLinks} target="_blank" href={item.link}>
+                  {item.image ? <img className="inline-block align-middle mr-2 h-4 w-4 contain" src={imageUrlFor(buildImageObj(item.image))} /> : null}{' '}
                   {item.title} {item.cta}
                 </a>
               ) : (
@@ -122,7 +123,7 @@ const Footer = class extends React.Component {
             <div className={classColumns}>
               <img
                 className="inline-block align-middle mr-2 w-12 md:w-14"
-                src="/logo-white.svg"
+                src="/logo.svg"
                 alt={company}
               />
             </div>
@@ -134,13 +135,13 @@ const Footer = class extends React.Component {
           {/* Bottom line */}
           <div className="inline-block w-full my-8">
             <div className="inline-block relative w-full">
-              <p className="w-full text-left text-sm text-gray-500">
+              <p className="w-full text-left text-sm text-gray-600">
                 &copy; {year} {company}
               </p>
             </div>
             <div className="inline-block w-full md:3/12">
               <a
-                className="text-xs text-gray-500 underline link"
+                className="text-xs text-gray-600 underline link"
                 target="_blank"
                 href={`https://www.google.ca/maps?q=${city}, ${country || `USA`}`}
                 rel="noopener noreferrer"

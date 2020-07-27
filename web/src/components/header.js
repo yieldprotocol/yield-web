@@ -76,11 +76,11 @@ const Header = class extends React.Component {
     ]
 
     const Logo = () => (
-      <Link className="inline-block text-white font-semibold link" title={company} to="/">
+      <Link className="inline-block text-black font-semibold link" title={company} to="/">
         <img
           className="inline-block align-middle mr-4 w-6 lg:w-8"
           alt={company}
-          src="/logo-white.svg"
+          src="/logo.svg"
         />
         <strong className="hidden md:inline-block align-middle">Yield</strong>
       </Link>
@@ -104,7 +104,7 @@ const Header = class extends React.Component {
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        <Button text="Talk to us" to="/contact" outlined />
+        <Button text="Try the app" to="/contact" outlined />
       </div>
     )
 
@@ -123,7 +123,7 @@ const Header = class extends React.Component {
     return (
       <nav
         aria-label="main-navigation"
-        className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none ${
+        className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none bg-white ${
           this.state.isTop ? `py-8` : `py-4`
         }`}
         role="navigation"

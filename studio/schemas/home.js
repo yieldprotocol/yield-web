@@ -73,11 +73,6 @@ export default {
       type: "image"
     },
     {
-      name: "showStories",
-      title: "Show stories (enabled by default)",
-      type: "boolean"
-    },
-    {
       name: "showBlog",
       title: "Show blog (enabled by default)",
       type: "boolean"

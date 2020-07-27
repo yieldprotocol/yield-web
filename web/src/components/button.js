@@ -1,16 +1,17 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-const ButtonClass =
-  'inline-block relative w-full text-center font-bold px-4 py-3 text-white text-base rounded'
+const ButtonClass = 'inline-block relative w-full text-center font-bold px-4 py-3 text-base rounded'
 
 class Button extends React.Component {
   render() {
     const { outlined, external, primary, margin, full, type, text, to } = this.props
 
     const RenderClass = `${ButtonClass} ${
-      outlined ? 'border-2 border-solid border-white bg-transparent' : 'bg-black'
-    } ${primary ? 'border-2 border-solid border-primary bg-primary' : 'bg-transparent'} ${margin ? margin : ''} ${full ? 'md:w-full' : 'md:w-auto'}`
+      outlined ? 'border-2 border-solid border-primary bg-transparent text-primary' : 'bg-primary text-white'
+    } ${
+      primary ? 'border-2 border-solid border-primary bg-primary text-white' : 'bg-transparent'
+    } ${margin ? margin : ''} ${full ? 'md:w-full' : 'md:w-auto'}`
 
     return (
       <>

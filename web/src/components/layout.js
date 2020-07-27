@@ -27,6 +27,7 @@ class Layout extends React.Component {
         <Footer
           country={companyInfo.country || `USA`}
           company={companyInfo.name || `Yield`}
+          socials={companyInfo.socials || []}
           email={companyInfo.email || `info@yield.is`}
           city={companyInfo.city || `Austin`}
         />
