@@ -105,16 +105,16 @@ export default () =>
                   S.editor()
                     .id("careersPage")
                     .schemaType("page")
-                    .documentId("careers2")
+                    .documentId("careers")
                 )
                 .icon(FaFile),
               S.listItem()
-                .title("Blog Posts")
+                .title("Blog")
                 .child(
                   S.editor()
-                    .id("insightsPage")
+                    .id("blogsPage")
                     .schemaType("page")
-                    .documentId("Blog Posts")
+                    .documentId("blog")
                 )
                 .icon(FaFile),
               S.listItem()

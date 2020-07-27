@@ -49,7 +49,6 @@ export const query = graphql`
           }
         }
       }
-      slide2
       slide2LeftTitle
       slide2LeftDescription
       slide2LeftImage {

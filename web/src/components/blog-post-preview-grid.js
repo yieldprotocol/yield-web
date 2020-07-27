@@ -9,7 +9,7 @@ function BlogPostPreviewGrid(props) {
       {props.title && (
         <div className="flex justify-between items-center my-8">
           <h3 className="inline-block relative w-auto text-xl md:text-3xl mb-0">
-            {props.title || `Our insights`}
+            {props.title || `Blog posts`}
           </h3>
           {props.browseMoreHref ? (
             <Link className="text-right underline text-sm" to={props.browseMoreHref}>

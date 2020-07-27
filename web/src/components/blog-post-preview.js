@@ -10,7 +10,7 @@ import { imageUrlFor } from '../lib/image-url'
 function BlogPostPreview(props) {
   return (
     <Link
-      className="inline-block w-full bg-white rounded"
+      className="inline-block w-full bg-white border border-solid border-gray-300 rounded-md overflow-hidden"
       to={getBlogUrl(props.publishedAt, props.slug.current)}
     >
       <div>

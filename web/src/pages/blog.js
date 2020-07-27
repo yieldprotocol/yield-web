@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { graphql } from 'gatsby'
 import Pagination from 'react-sanity-pagination'
 
-import InsightPreviewGrid from '../components/blog-post-preview-grid'
+import BlogPreviewGrid from '../components/blog-post-preview-grid'
 import GraphQLErrorList from '../components/graphql-error-list'
 import PageHeader from '../components/page-header'
 import Container from '../components/container'
@@ -18,8 +18,8 @@ import {
 } from '../lib/helpers'
 
 export const query = graphql`
-  query InsightsPageQuery {
-    page: sanityPage(_id: { regex: "/(drafts.|)insights/" }) {
+  query BlogPostsPageQuery {
+    page: sanityPage(_id: { regex: "/(drafts.|)blog/" }) {
       id
       title
       image {
@@ -66,7 +66,7 @@ export const query = graphql`
   }
 `
 
-const InsightsPage = props => {
+const BlogPostsPage = props => {
   const { data, errors } = props
 
   if (errors) {
@@ -81,7 +81,7 @@ const InsightsPage = props => {
 
   if (!page) {
     throw new Error(
-      'Missing "Insights" page data. Open the studio at http://localhost:3333 and add "Insights" page data and restart the development server.'
+      'Missing "Blog Posts" page data. Open the studio at http://localhost:3333 and add "Blog Posts" page data and restart the development server.'
     )
   }
 
@@ -118,7 +118,7 @@ const InsightsPage = props => {
     {
       active: true,
       title: 'All',
-      to: '/insights'
+      to: '/blog'
     }
   ]
 
@@ -141,7 +141,7 @@ const InsightsPage = props => {
             <div className="inline-block relative w-full text-left">
               {items && (
                 <>
-                  <InsightPreviewGrid nodes={items} />
+                  <BlogPreviewGrid nodes={items} />
                   {/* Props required: action, items, postsPerPage */}
                   <Pagination
                     nextButtonLabel={'Next'}
@@ -162,4 +162,4 @@ const InsightsPage = props => {
   )
 }
 
-export default InsightsPage
+export default BlogPostsPage

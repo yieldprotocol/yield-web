@@ -103,7 +103,7 @@ const CategoryTemplate = props => {
     {
       active: false,
       title: 'All',
-      to: '/insights'
+      to: '/blog'
     }
   ]
 

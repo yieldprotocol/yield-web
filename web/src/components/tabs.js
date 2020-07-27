@@ -10,7 +10,7 @@ const Tabs = props => {
     <div>
       {tabs.map((tab, index) => (
         <Link
-          className={`${TabClass} ${tab.active ? 'text-white border-white' : 'text-gray-500 border-black'}`}
+          className={`${TabClass} ${tab.active ? 'text-primary border-primary' : 'text-gray-500 border-white'}`}
           key={`tab-${index}`}
           to={tab.to}
         >
