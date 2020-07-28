@@ -11,7 +11,7 @@ const PageHeader = props => {
   const { title, image, body } = props
   return (
     <div className="inline-block relative w-full">
-      <h1 className={`inline-block relative w-full text-3xl md:text-5xl ${image ? 'mb-0' : 'mb-8'}`}>{title}</h1>
+      <h1 className={`inline-block relative w-full text-3xl font-bold md:text-5xl ${image ? 'mb-0' : 'mb-8'}`}>{title}</h1>
       {image ? (
         <img
           className="inline-block w-full fit rounded-sm my-8"

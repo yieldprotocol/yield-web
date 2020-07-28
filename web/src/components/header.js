@@ -62,10 +62,6 @@ const Header = class extends React.Component {
         to: '/mission'
       },
       {
-        title: 'Contact us',
-        to: '/contact'
-      },
-      {
         title: 'Careers',
         to: '/careers'
       },
@@ -104,7 +100,7 @@ const Header = class extends React.Component {
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        <Button text="Try the app" to="/contact" outlined />
+        <Button text="Try the app" to="https://app.yield.is/" external outlined />
       </div>
     )
 
@@ -124,7 +120,7 @@ const Header = class extends React.Component {
       <nav
         aria-label="main-navigation"
         className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none bg-white ${
-          this.state.isTop ? `py-8` : `py-4`
+          this.state.isTop ? `py-4` : `py-2`
         }`}
         role="navigation"
       >

@@ -5,7 +5,7 @@ import { ArrowLeft, ArrowRight } from 'react-feather'
 import { mapEdgesToNodes, filterOutDocsWithoutSlugs, buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
-import InsightPreviewGrid from '../components/blog-post-preview-grid'
+import BlogPreviewGrid from '../components/blog-post-preview-grid'
 import GraphQLErrorList from '../components/graphql-error-list'
 import BlockContent from '../components/block-content'
 import Container from '../components/container'
@@ -15,7 +15,7 @@ import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
 
-const ParagraphClass = 'inline-block relative w-full text-sm md:text-base text-gray-600 my-8'
+const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8'
 
 export const query = graphql`
   query IndexPageQuery {
@@ -177,32 +177,34 @@ const IndexPage = props => {
         }
       />
       <Container>
-        <div className="inline-block relative w-full py-16 md:py-32">
-          <div className="flex flex-wrap relative w-full">
+        <div className="inline-block relative w-full text-center">
+          <div className="flex flex-wrap relative w-full py-48 md:py-64 intro">
             {/* Intro */}
-            <div
-              className="relative w-full"
-            >
-              <h1 className="inline-block relative w-full text-3xl md:text-5xl">{page.title}</h1>
-              <div className={ParagraphClass}>
+            <div className="relative w-full">
+              <h1 className="inline-block relative w-full text-3xl md:text-5xl font-bold">
+                {page.title}
+              </h1>
+              <div className={`${ParagraphClass} text-gray-700`}>
                 <BlockContent blocks={page._rawBody || []} />
               </div>
               {/* CTAS */}
               {page.ctaPrimary || page.ctaSecondary ? (
-                <div className="inline-block md:flex justify-start items-center relative w-full">
-                  <Button
-                    primary
-                    margin="mr-4 mb-4 md:mb-0"
-                    text={page.ctaPrimary}
-                    to={page.ctaPrimaryURL}
-                  />
-                  <Button
-                    external
-                    outlined
-                    margin="mb-8 md:mb-0"
-                    text={page.ctaSecondary}
-                    to={page.ctaSecondaryURL}
-                  ></Button>
+                <div className="block m-auto">
+                  <div className="inline-block md:flex justify-center items-center relative w-full md:w-auto m-auto">
+                    <Button
+                      primary
+                      margin="mr-4 mb-4 md:mb-0"
+                      text={page.ctaPrimary}
+                      to={page.ctaPrimaryURL}
+                    />
+                    <Button
+                      external
+                      outlined
+                      margin="mb-8 md:mb-0"
+                      text={page.ctaSecondary}
+                      to={page.ctaSecondaryURL}
+                    ></Button>
+                  </div>
                 </div>
               ) : null}
             </div>
@@ -218,7 +220,7 @@ const IndexPage = props => {
             ) : null}
           </div>
           {/* Slide 2 */}
-          <div className="inline-block relative w-full py-12 md:py-24">
+          {/* <div className="inline-block relative w-full py-12 md:py-24">
             <div
               className={`${
                 page.slide2 ? 'grid gap-6 grid-cols-1 md:grid-cols-2' : 'inline-block'
@@ -241,15 +243,11 @@ const IndexPage = props => {
                 button
               />
             </div>
-          </div>
+          </div> */}
           {/* Blog posts */}
           {page.showBlog && postNodes && (
             <div className="inline-block relative w-full">
-              <InsightPreviewGrid
-                browseMoreHref="/insights/"
-                title="Our insights"
-                nodes={postNodes}
-              />
+              <BlogPreviewGrid browseMoreHref="/blog/" title="Our insights" nodes={postNodes} />
             </div>
           )}
         </div>
