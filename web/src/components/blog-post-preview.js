@@ -10,7 +10,7 @@ import { imageUrlFor } from '../lib/image-url'
 function BlogPostPreview(props) {
   return (
     <Link
-      className="inline-block w-full bg-white border border-solid border-gray-300 rounded-md overflow-hidden"
+      className="inline-block w-full bg-white border border-solid border-gray-300 rounded-md overflow-hidden text-left"
       to={getBlogUrl(props.publishedAt, props.slug.current)}
     >
       <div>
@@ -24,7 +24,7 @@ function BlogPostPreview(props) {
           />
         )}
       </div>
-      <div className="inline-block relative w-full p-4 md:p-8">
+      <div className="inline-block relative w-full p-4">
         <strong
           className={`inline-block realtive w-full font-semibold text-black text-lg ${
             props._rawExcerpt ? 'mb-4' : 'mb-0'

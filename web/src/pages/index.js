@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { graphql } from 'gatsby'
-import { ArrowLeft, ArrowRight } from 'react-feather'
+import { graphql, Link } from 'gatsby'
 
 import { mapEdgesToNodes, filterOutDocsWithoutSlugs, buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
@@ -8,14 +7,14 @@ import { imageUrlFor } from '../lib/image-url'
 import BlogPreviewGrid from '../components/blog-post-preview-grid'
 import GraphQLErrorList from '../components/graphql-error-list'
 import BlockContent from '../components/block-content'
-import Container from '../components/container'
-import Slide2 from '../components/slide-2'
+import ContainerFull from '../components/container-full'
 import Button from '../components/button'
 import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
 
-const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8'
+const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8 text-gray-600'
+const ClassLinks = 'inline-block relative w-full text-xs md:text-sm underline link py-1 font-light'
 
 export const query = graphql`
   query IndexPageQuery {
@@ -164,6 +163,25 @@ const IndexPage = props => {
     </div>
   )
 
+  const NavLinks = [
+    {
+      title: 'About us',
+      to: '/about'
+    },
+    {
+      title: 'Mission',
+      to: '/mission'
+    },
+    {
+      title: 'Careers',
+      to: '/careers'
+    },
+    {
+      title: 'Blog',
+      to: '/blog'
+    }
+  ]
+
   return (
     <Layout>
       <SEO
@@ -176,82 +194,48 @@ const IndexPage = props => {
             : false
         }
       />
-      <Container>
-        <div className="inline-block relative w-full text-center">
-          <div className="flex flex-wrap relative w-full py-48 md:py-64 intro">
-            {/* Intro */}
-            <div className="relative w-full">
-              <h1 className="inline-block relative w-full text-3xl md:text-5xl font-bold">
-                {page.title}
-              </h1>
-              <div className={`${ParagraphClass} text-gray-700`}>
-                <BlockContent blocks={page._rawBody || []} />
-              </div>
-              {/* CTAS */}
-              {page.ctaPrimary || page.ctaSecondary ? (
-                <div className="block m-auto">
-                  <div className="inline-block md:flex justify-center items-center relative w-full md:w-auto m-auto">
-                    <Button
-                      primary
-                      margin="mr-4 mb-4 md:mb-0"
-                      text={page.ctaPrimary}
-                      to={page.ctaPrimaryURL}
-                    />
-                    <Button
-                      external
-                      outlined
-                      margin="mb-8 md:mb-0"
-                      text={page.ctaSecondary}
-                      to={page.ctaSecondaryURL}
-                    ></Button>
-                  </div>
-                </div>
-              ) : null}
-            </div>
-            {/* Stats */}
-            {page.stats && page.stats.length > 0 ? (
-              <div className="inline-block relative w-full mt-24">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative w-full">
-                  {page.stats.map((stat, index) => (
-                    <Stat stat={stat} key={`stat-${index}`} />
-                  ))}
-                </div>
-              </div>
-            ) : null}
+      <ContainerFull>
+        <div className="inline-block md:flex h-full">
+          {/* Left */}
+          <div className="inline-block relative nav w-full md:w-1/4 mb-8 md:mb-0">
+            {NavLinks.map((item, index) => (
+              <Link
+                className={`${ClassLinks} ${
+                  NavLinks.length !== index + 1 ? 'mr-0 md:mr-4' : 'mr-0 md:mr-0'
+                }`}
+                key={Math.random()}
+                to={item.to}
+              >
+                {item.title}
+              </Link>
+            ))}
           </div>
-          {/* Slide 2 */}
-          {/* <div className="inline-block relative w-full py-12 md:py-24">
-            <div
-              className={`${
-                page.slide2 ? 'grid gap-6 grid-cols-1 md:grid-cols-2' : 'inline-block'
-              }`}
-            >
-              <Slide2
-                background="bg-teal-900"
-                description={page.slide2LeftDescription}
-                image={page.slide2LeftImage}
-                title={page.slide2LeftTitle}
-                split={page.slide2}
-                button
-              />
-              <Slide2
-                background="bg-blue-900"
-                description={page.slide2RightDescription}
-                image={page.slide2RightImage}
-                title={page.slide2RightTitle}
-                split={page.slide2}
-                button
-              />
+          {/* Middle */}
+          <div className="inline-block relative w-full md:w-2/4 mb-8 md:mb-0">
+            <h1 className="text-4xl md:text-6xl font-display">
+              {page.title || `Borrow at fixed rates. Earn predictable interest.`}
+            </h1>
+            <div className={`${ParagraphClass}`}>
+              <BlockContent blocks={page._rawBody || []} />
             </div>
-          </div> */}
-          {/* Blog posts */}
-          {page.showBlog && postNodes && (
             <div className="inline-block relative w-full">
-              <BlogPreviewGrid browseMoreHref="/blog/" title="Our insights" nodes={postNodes} />
+              <Button text="Try the app" to="https://app.yield.is/" external link />
             </div>
-          )}
+          </div>
+          {/* Right */}
+          <div className="inline-block relative w-full md:w-1/4 text-left md:text-right">
+            <div className="relative md:absolute bottom-0 right-0 text-xs text-gray-600 w-full md:w-48">
+              <p>
+                Yield has been audited by ASDF on September 1, 2020 to learn more{' '}
+                <a href="https://#/" target="_blank" className="underline link">
+                  read the report here
+                </a>
+                .
+              </p>
+            </div>
+          </div>
         </div>
-      </Container>
+      </ContainerFull>
     </Layout>
   )
 }

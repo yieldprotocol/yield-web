@@ -1,13 +1,16 @@
 module.exports = {
   theme: {
+    minHeight: {
+      display: '50rem'
+    },
     fontFamily: {
-      display: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      display: ['Syne', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       body: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
     },
     extend: {
       colors: {
-        primary: '#5641FF',
-        secondary: '#F6F9FF',
+        primary: '#FFD5A3',
+        secondary: '#A3FFE3',
         offwhite: '#F7F7FA',
         yellow: 'F7D958'
       }

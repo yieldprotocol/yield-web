@@ -8,7 +8,6 @@
 
 /* Imports */
 @import 'animations'
-@import 'variables'
 @import 'pagination'
 @import 'masonry'
 @import 'modals'
@@ -17,9 +16,9 @@
 
 /* Colors */
 .bg-brand-primary
-  background: $primary
+  background: theme('colors.primary')
 .primary
-  color: $primary
+  color: theme('colors.primary')
 
 /* Box sizing partial styles: */
 /* Apply a natural box layout model to all elements */
@@ -40,9 +39,8 @@ body
   -webkit-overflow-scrolling: touch
   -webkit-font-smoothing: auto
   text-rendering: optimizeLegibility
-  font-family: $primary-fonts
   letter-spacing: -0.5px
-  background: white
+  background: black
   transition: all 0.2s ease-in-out
   color: black
 
@@ -139,11 +137,6 @@ hr
 .list
   ul
     list-style: disc
-
-p
-  a
-    text-decoration: underline
-    color: $primary
 
 figure
   margin: 1rem auto
