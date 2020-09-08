@@ -16,7 +16,6 @@ const Footer = class extends React.Component {
     super(props)
 
     this.logClick = this.logClick.bind(this)
-    this.getTime = this.getTime.bind(this)
   }
 
   logClick(name) {
@@ -25,22 +24,6 @@ const Footer = class extends React.Component {
       action: `Clicked ${name}`
     }
     logEvent(event)
-  }
-
-  getTime(currentTime = new Date()) {
-    const currentHour = currentTime.getHours()
-    const splitAfternoon = 12 // 24hr time to split the afternoon
-    const splitEvening = 17 // 24hr time to split the evening
-
-    if (currentHour >= splitAfternoon && currentHour <= splitEvening) {
-      // Between 12 PM and 5PM
-      return 'Good afternoon from'
-    } else if (currentHour >= splitEvening) {
-      // Between 5PM and Midnight
-      return 'Good evening from'
-    }
-    // Between dawn and noon
-    return 'Good morning from'
   }
 
   render() {
