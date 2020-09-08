@@ -1,14 +1,12 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-import Container from './container'
+import Logotype from './logotype'
 
 import { logEvent } from '../utils/analytics'
 import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
-const classColumns = 'w-full md:w-4/12 mb-6'
-const classStrong = 'inline-block w-full font-bold text-md mb-4'
 const classLinks =
   'inline-block align-middle w-full md:w-auto font-normal text-gray-600 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
 const year = new Date().getFullYear()
@@ -50,23 +48,6 @@ const Footer = class extends React.Component {
 
     const footerLinks = [
       {
-        title: 'Yield',
-        list: [
-          {
-            title: 'About us',
-            link: '/about'
-          },
-          {
-            title: 'Mission',
-            link: '/mission'
-          },
-          {
-            title: 'Careers',
-            link: '/careers'
-          }
-        ]
-      },
-      {
         title: 'Resources',
         list: [
           {
@@ -92,65 +73,38 @@ const Footer = class extends React.Component {
       }
     ]
 
-    const LinkComponent = ({ title, list }) => (
-      <div className={classColumns} key={`${title}-${Math.random()}`}>
-        <strong className={classStrong}>{title}</strong>
-        <ul className="inline-block w-full">
-          {list.map((item, index) => (
-            <li key={`list-${index}`}>
-              {item.external ? (
-                <a className={classLinks} target="_blank" href={item.link}>
-                  {item.image ? <img className="inline-block align-middle mr-2 h-4 w-4 contain" src={imageUrlFor(buildImageObj(item.image))} /> : null}{' '}
-                  {item.title} {item.cta}
-                </a>
-              ) : (
-                <Link className={classLinks} to={item.link}>
-                  {item.title}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    )
+    const LinkComponent = ({ title, list }) =>
+      list.map((item, index) =>
+        item.external ? (
+          <a className={classLinks} target="_blank" href={item.link}>
+            {item.image ? (
+              <img
+                className="inline-block align-middle mr-2 h-4 w-4 contain"
+                src={imageUrlFor(buildImageObj(item.image))}
+              />
+            ) : null}{' '}
+            {item.title} {item.cta}
+          </a>
+        ) : (
+          <Link className={classLinks} to={item.link}>
+            {item.title}
+          </Link>
+        )
+      )
 
     return (
-      <footer className="inline-block w-full py-6">
-        <Container>
-          {/* Top line */}
-          <div className="inline-block md:flex items-start justify-between w-full">
-            {/* Logo */}
-            <div className={classColumns}>
-              <img
-                className="inline-block align-middle mr-2 w-12 md:w-14"
-                src="/logo.svg"
-                alt={company}
-              />
-            </div>
-            {/* Links */}
+      <footer className="inline-block w-full py-6 px-5 md:px-12 realtive md:fixed bottom-0 right-0 left-0 text-gray-500 text-sm">
+        <div className="inline-block relative w-full md:flex align-middle items-center">
+          <div className="inline-block relative w-full md:w-1/4 mb-8 md:mb-0">
+            <Logotype company={company} />
+          </div>
+          <div className="inline-block relative w-full md:w-2/4">
             {footerLinks.map((object, index) => (
               <LinkComponent title={object.title} list={object.list} key={index} />
             ))}
           </div>
-          {/* Bottom line */}
-          <div className="inline-block w-full my-8">
-            <div className="inline-block relative w-full">
-              <p className="w-full text-left text-sm text-gray-600">
-                &copy; {year} {company}
-              </p>
-            </div>
-            <div className="inline-block w-full md:3/12">
-              <a
-                className="text-xs text-gray-600 underline link"
-                target="_blank"
-                href={`https://www.google.ca/maps?q=${city}, ${country || `USA`}`}
-                rel="noopener noreferrer"
-              >
-                {this.getTime()} {city}
-              </a>
-            </div>
-          </div>
-        </Container>
+          <div className="inline-block relative w-full md:1/4"></div>
+        </div>
       </footer>
     )
   }

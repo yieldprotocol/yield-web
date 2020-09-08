@@ -1,12 +1,6 @@
 import React from 'react'
-import { Link } from 'gatsby'
 
-import Button from './button'
-
-const classMenuButton =
-  'inline-block md:hidden bg-transparent border-none relative w-auto text-sm font-medium'
-const classLinks =
-  'inline-block align-middle w-full md:w-auto py-3 md:py-0 mx-0 md:mx-2 text-center text-xl md:text-base md:text-right font-medium link'
+import Logotype from './logotype'
 
 const Header = class extends React.Component {
   constructor(props) {
@@ -18,8 +12,6 @@ const Header = class extends React.Component {
     }
 
     this.isTopChecker = this.isTopChecker.bind(this)
-    this.toggleMenu = this.toggleMenu.bind(this)
-    this.closeMenu = this.closeMenu.bind(this)
   }
 
   isTopChecker() {
@@ -37,35 +29,8 @@ const Header = class extends React.Component {
     window.removeEventListener('scroll', this.isTopChecker)
   }
 
-  toggleMenu() {
-    this.setState({ menuOpen: !this.state.menuOpen })
-  }
-
-  closeMenu() {
-    if (this.state.menuOpen) {
-      this.setState({
-        menuOpen: false
-      })
-    }
-  }
-
   render() {
     const { company } = this.props
-
-    const Logo = () => (
-      <Link
-        className="inline-block text-white font-semibold link font-display"
-        title={company}
-        to="/"
-      >
-        <img
-          className="inline-block align-middle mr-4 w-6 lg:w-8"
-          alt={company}
-          src="/logo-white.svg"
-        />
-        <strong className="hidden md:inline-block align-middle">Yield</strong>
-      </Link>
-    )
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
@@ -86,7 +51,7 @@ const Header = class extends React.Component {
         <div className={`mx-auto px-5 md:px-12`}>
           <div className="flex w-full justify-between items-center">
             {/* Left */}
-            <Logo />
+            <Logotype company={this.props} />
             {/* Right */}
             <div className="hidden md:inline-block relative tr">
               <RightNav />

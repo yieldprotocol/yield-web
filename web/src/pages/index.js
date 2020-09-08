@@ -4,7 +4,6 @@ import { graphql, Link } from 'gatsby'
 import { mapEdgesToNodes, filterOutDocsWithoutSlugs, buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
-import BlogPreviewGrid from '../components/blog-post-preview-grid'
 import GraphQLErrorList from '../components/graphql-error-list'
 import BlockContent from '../components/block-content'
 import ContainerFull from '../components/container-full'
@@ -32,6 +31,7 @@ export const query = graphql`
     page: sanityHome(_id: { regex: "/(drafts.|)home/" }) {
       id
       title
+      heading
       _rawBody
       ctaPrimary
       ctaPrimaryURL
@@ -65,42 +65,6 @@ export const query = graphql`
       showBlog
       mainCTA
       mainCTAURL
-    }
-
-    posts: allSanityPost(limit: 12, sort: { fields: [publishedAt], order: DESC }) {
-      edges {
-        node {
-          id
-          publishedAt
-          mainImage {
-            crop {
-              _key
-              _type
-              top
-              bottom
-              left
-              right
-            }
-            hotspot {
-              _key
-              _type
-              x
-              y
-              height
-              width
-            }
-            asset {
-              _id
-            }
-            alt
-          }
-          title
-          _rawExcerpt
-          slug {
-            current
-          }
-        }
-      }
     }
   }
 `
@@ -185,7 +149,7 @@ const IndexPage = props => {
   return (
     <Layout>
       <SEO
-        title={site.title}
+        title={page.title}
         description={site.description}
         keywords={site.keywords}
         image={
@@ -211,20 +175,34 @@ const IndexPage = props => {
             ))}
           </div>
           {/* Middle */}
-          <div className="inline-block relative w-full md:w-2/4 mb-8 md:mb-0">
+          <div className="inline-block relative w-full md:w-2/4 mb-8 md:mb-0 pr-0 md:pr-16">
             <h1 className="text-4xl md:text-6xl font-display">
-              {page.title || `Borrow at fixed rates. Earn predictable interest.`}
+              {page.heading || `Borrow at fixed rates. Earn predictable interest.`}
             </h1>
             <div className={`${ParagraphClass}`}>
               <BlockContent blocks={page._rawBody || []} />
             </div>
-            <div className="inline-block relative w-full">
-              <Button text="Try the app" to="https://app.yield.is/" external link />
-            </div>
+            {/* <Button text="Try the app" to="https://app.yield.is/" external link /> */}
+            {page.ctaPrimary || page.ctaSecondary ? (
+              <div className="inline-block relative w-full">
+                <div className="inline-block md:flex justify-start items-center relative w-full md:w-auto m-auto">
+                  <Button
+                    margin="mr-4 mb-4 md:mb-0"
+                    text={page.ctaPrimary}
+                    to={page.ctaPrimaryURL}
+                  />
+                  <Button
+                    margin="mb-8 md:mb-0"
+                    text={page.ctaSecondary}
+                    to={page.ctaSecondaryURL}
+                  ></Button>
+                </div>
+              </div>
+            ) : null}
           </div>
           {/* Right */}
           <div className="inline-block relative w-full md:w-1/4 text-left md:text-right">
-            <div className="relative md:absolute bottom-0 right-0 text-xs text-gray-600 w-full md:w-48">
+            <div className="relative md:absolute bottom-0 right-0 text-xs text-white opacity-75 w-full md:w-48">
               <p>
                 Yield has been audited by ASDF on September 1, 2020 to learn more{' '}
                 <a href="https://#/" target="_blank" className="underline link">
@@ -236,6 +214,11 @@ const IndexPage = props => {
           </div>
         </div>
       </ContainerFull>
+      {/* Image */}
+      <img
+        className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
+        src="/img/moon/spaceman.png"
+      />
     </Layout>
   )
 }
