@@ -46,7 +46,6 @@
     "react-helmet": "^5.2.1",
     "react-modal": "^3.11.2",
     "react-sanity-pagination": "^2.0.2",
-    "swiper": "^5.4.5",
     "tailwindcss": "^1.5.2"
   },
   "devDependencies": {
