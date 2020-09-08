@@ -30,6 +30,7 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
         const metaDescription = description || data.site.description
         const socialImage = image || 'https://yield-web.netlify.app/img/social.png'
         const siteUrl = url || 'https://yield-web.netlify.app/'
+
         return (
           <Helmet
             htmlAttributes={{
@@ -90,6 +91,10 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
               {
                 property: 'og:image:height',
                 content: '1080'
+              },
+              {
+                property: 'og:image',
+                content: socialImage
               },
               {
                 property: 'og:title',
