@@ -59,7 +59,7 @@ const Footer = class extends React.Component {
     const LinkComponent = ({ title, list }) =>
       list.map((item, index) =>
         item.external ? (
-          <a className={classLinks} target="_blank" href={item.link}>
+          <a className={classLinks} target="_blank" href={item.link} key={`link-external-${index}`}>
             {item.image ? (
               <img
                 className="inline-block align-middle mr-2 h-4 w-4 contain"
@@ -69,7 +69,7 @@ const Footer = class extends React.Component {
             {item.title} {item.cta}
           </a>
         ) : (
-          <Link className={classLinks} to={item.link}>
+          <Link className={classLinks} to={item.link} key={`link-internal-${index}`}>
             {item.title}
           </Link>
         )

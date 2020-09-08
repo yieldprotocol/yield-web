@@ -33,6 +33,11 @@ export const query = graphql`
       title
       heading
       _rawBody
+      mainImage {
+        asset {
+          _id
+        }
+      }
       ctaPrimary
       ctaPrimaryURL
       ctaSecondary
@@ -46,20 +51,6 @@ export const query = graphql`
           asset {
             _id
           }
-        }
-      }
-      slide2LeftTitle
-      slide2LeftDescription
-      slide2LeftImage {
-        asset {
-          _id
-        }
-      }
-      slide2RightTitle
-      slide2RightDescription
-      slide2RightImage {
-        asset {
-          _id
         }
       }
       showBlog
@@ -82,9 +73,8 @@ const IndexPage = props => {
 
   const site = (data || {}).site
   const page = (data || {}).page
-  const postNodes = (data || {}).posts
-    ? mapEdgesToNodes(data.posts).filter(filterOutDocsWithoutSlugs)
-    : []
+
+  console.log(page)
 
   if (!site) {
     throw new Error(
@@ -182,16 +172,17 @@ const IndexPage = props => {
             <div className={`${ParagraphClass}`}>
               <BlockContent blocks={page._rawBody || []} />
             </div>
-            {/* <Button text="Try the app" to="https://app.yield.is/" external link /> */}
             {page.ctaPrimary || page.ctaSecondary ? (
               <div className="inline-block relative w-full">
                 <div className="inline-block md:flex justify-start items-center relative w-full md:w-auto m-auto">
                   <Button
+                    external
                     margin="mr-4 mb-4 md:mb-0"
                     text={page.ctaPrimary}
                     to={page.ctaPrimaryURL}
                   />
                   <Button
+                    external
                     margin="mb-8 md:mb-0"
                     text={page.ctaSecondary}
                     to={page.ctaSecondaryURL}
@@ -215,10 +206,17 @@ const IndexPage = props => {
         </div>
       </ContainerFull>
       {/* Image */}
-      <img
-        className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
-        src="/img/moon/spaceman.png"
-      />
+      {page.mainImage ? (
+        <img
+          className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
+          src={imageUrlFor(buildImageObj(page.mainImage)).url()}
+        />
+      ) : (
+        <img
+          className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
+          src="/img/moon/spaceman.png"
+        />
+      )}
     </Layout>
   )
 }

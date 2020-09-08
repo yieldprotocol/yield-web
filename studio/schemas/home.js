@@ -22,6 +22,11 @@ export default {
       type: "blockContent"
     },
     {
+      name: "mainImage",
+      title: "Main image",
+      type: "mainImage"
+    },
+    {
       name: "ctaPrimary",
       title: "First CTA",
       type: "string"
@@ -46,36 +51,6 @@ export default {
       title: "Stats",
       type: "array",
       of: [{ type: "stat" }]
-    },
-    {
-      name: "slide2LeftTitle",
-      title: "Left side title (default for non-split view)",
-      type: "string"
-    },
-    {
-      name: "slide2LeftDescription",
-      title: "Left side description (default for non-split view)",
-      type: "text"
-    },
-    {
-      name: "slide2LeftImage",
-      title: "Left side image (optional)",
-      type: "image"
-    },
-    {
-      name: "slide2RightTitle",
-      title: "Right side title (only shows up if split view is enabled)",
-      type: "string"
-    },
-    {
-      name: "slide2RightDescription",
-      title: "Right side description (only shows up if split view is enabled)",
-      type: "text"
-    },
-    {
-      name: "slide2RightImage",
-      title: "Right side image (optional)",
-      type: "image"
     },
     {
       name: "showBlog",
