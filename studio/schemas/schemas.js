@@ -21,7 +21,6 @@ import person from "./person";
 import post from "./post";
 import postAuthor from "./postAuthor";
 import siteSettings from "./siteSettings";
-import services from "./services";
 import slideshow from "./slideshow";
 import social from "./social";
 import stat from "./stat";
@@ -54,7 +53,6 @@ export default createSchema({
     post,
     postAuthor,
     siteSettings,
-    services,
     slideshow,
     social,
     stat,

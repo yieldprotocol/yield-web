@@ -14,7 +14,6 @@ const hiddenTypes = [
   "paper",
   "person",
   "post",
-  "services",
   "social",
   "stat",
   "stories",
