@@ -106,18 +106,12 @@ const IndexPage = props => {
             : false
         }
       />
-      <ContainerFull
-        style={{
-          background: `url(/img/farming.jpe)`,
-          backgroundPosition: 'center 25%',
-          backgroundSize: 'cover'
-        }}
-      >
+      <ContainerFull>
         <div className="flex items-center h-full w-full text-center mt-12 md:mt-0">
           <div className="mx-auto bg-gray-900 p-8 md:p-12 rounded w-full max-w-xl">
             <h1 className="hidden">Yield Protocol</h1>
             <div className="block mx-auto mb-8 h-6">
-              <img className="inline-block relative h-full fit" src="/type-white-1.svg" />
+              <img className="inline-block relative h-full fit" src="/type-white-2.svg" />
             </div>
             <p className={ParagraphClass}>Stay up to date with Yield:</p>
             <MailchimpSubscribe

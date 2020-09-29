@@ -6,7 +6,7 @@ const Logotype = ({ company }) => (
     <img
       className="inline-block align-middle mr-4 h-4"
       alt={company}
-      src="/type-white-1.svg"
+      src="/type-white-2.svg"
     />
     {/* <strong className="hidden md:inline-block align-middle">Yield</strong> */}
   </Link>
