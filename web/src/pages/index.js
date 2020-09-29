@@ -11,7 +11,7 @@ import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
 
-const ParagraphClass = 'inline-block relative w-full text-sm md:text-base text-gray-100 mb-8'
+const ParagraphClass = 'inline-block relative w-full text-sm md:text-base text-gray-600 mb-8'
 
 export const query = graphql`
   query TempPageQuery {
@@ -62,7 +62,7 @@ const IndexPage = props => {
       <form className="inline-block relative w-full" onSubmit={submit}>
         <input
           placeholder="Your email"
-          className="inline-block relative w-full p-4 bg-gray-800 text-white mb-4 rounded"
+          className="inline-block relative w-full p-4 bg-white text-gray-600 mb-4 rounded border border-2 border-gray-300"
           ref={node => (email = node)}
           type="email"
         />
@@ -107,8 +107,8 @@ const IndexPage = props => {
         }
       />
       <ContainerFull>
-        <div className="flex items-center h-full w-full text-center mt-12 md:mt-0">
-          <div className="mx-auto bg-gray-900 p-8 md:p-12 rounded w-full max-w-xl">
+        <div className="flex items-center h-full w-full text-center mt-12 md:mt-0 text-gray-600">
+          <div className="mx-auto bg-white border-2 border-gray-200 p-8 md:p-12 rounded w-full max-w-xl">
             <h1 className="hidden">Yield Protocol</h1>
             <div className="block mx-auto mb-8 h-6">
               <img className="inline-block relative h-full fit" src="/type.svg" />

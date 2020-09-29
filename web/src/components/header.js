@@ -46,7 +46,7 @@ const Header = class extends React.Component {
     return (
       <nav
         aria-label="main-navigation"
-        className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none text-white font-display ${
+        className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none text-gray-600 font-display ${
           this.state.isTop ? `py-8` : `py-4`
         }`}
         role="navigation"

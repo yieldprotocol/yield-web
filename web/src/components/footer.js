@@ -8,7 +8,7 @@ import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
 const classLinks =
-  'inline-block align-middle w-full md:w-auto font-normal text-gray-100 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
+  'inline-block align-middle w-full md:w-auto font-normal text-gray-600 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
 
 const Footer = class extends React.Component {
   constructor(props) {
