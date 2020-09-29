@@ -17,6 +17,42 @@
 .primary
   color: theme('colors.primary')
 
+/* Gradient button */
+.gradient-button
+  background-size: 100%
+  border-radius: 4px
+  background: transparent
+  z-index: 1
+
+  &:before
+    transition: 0.5s
+    background: transparent
+    position: absolute
+    z-index: -1
+    content: ''
+    height: 100%
+    width: 100%
+    left: 0
+    top: 0
+  
+  &:after
+    border-radius: 4px
+    background: linear-gradient(60deg, #ffac00, #ff8900, #ef4e7b, #3579ff, #3579ff, #5a67d8, #07b39b, #81e6d9)
+    background-size: 300% 300%
+    animation: gradient-button 3s ease alternate infinite
+    position: absolute
+    z-index: -2
+    content: ''
+    height: calc(100% + 1px * 1)
+    width: calc(100% + 1px * 1)
+    left: 00
+    top: 0
+
+  &:hover
+    &:before,
+    &::after
+      background: theme('colors.indigo.600')
+
 /* Box sizing partial styles: */
 /* Apply a natural box layout model to all elements */
 *,
@@ -57,6 +93,8 @@ a
   outline: none
 
 a
+  text-decoration: underline
+  
   &:hover
     opacity: 0.5
 

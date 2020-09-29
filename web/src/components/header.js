@@ -51,7 +51,7 @@ const Header = class extends React.Component {
         <div className={`mx-auto px-5 md:px-12`}>
           <div className="flex w-full justify-between items-center">
             {/* Left */}
-            <Logotype company={this.props} />
+            <Logotype company={company} />
             {/* Right */}
             <div className="hidden md:inline-block relative tr">
               <RightNav />

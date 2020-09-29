@@ -4,11 +4,11 @@ import { Link } from 'gatsby'
 const Logotype = ({ company }) => (
   <Link className="inline-block text-white font-semibold link font-display" title={company} to="/">
     <img
-      className="inline-block align-middle mr-4 w-6 lg:w-8"
+      className="inline-block align-middle mr-4 h-4"
       alt={company}
-      src="/logo-white.svg"
+      src="/type-white-1.svg"
     />
-    <strong className="hidden md:inline-block align-middle">Yield</strong>
+    {/* <strong className="hidden md:inline-block align-middle">Yield</strong> */}
   </Link>
 )
 

@@ -8,8 +8,7 @@ import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
 const classLinks =
-  'inline-block align-middle w-full md:w-auto font-normal text-gray-600 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
-const year = new Date().getFullYear()
+  'inline-block align-middle w-full md:w-auto font-normal text-gray-100 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
 
 const Footer = class extends React.Component {
   constructor(props) {
@@ -33,13 +32,14 @@ const Footer = class extends React.Component {
       {
         title: 'Resources',
         list: [
+          // {
+          //   title: 'FAQ',
+          //   link: '/faq'
+          // },
           {
-            title: 'Insights',
-            link: '/insights'
-          },
-          {
-            title: 'White papers',
-            link: '/white-papers'
+            external: true,
+            title: 'White paper',
+            link: '/Yield.pdf'
           }
         ]
       },
@@ -76,7 +76,7 @@ const Footer = class extends React.Component {
       )
 
     return (
-      <footer className="inline-block w-full py-6 px-5 md:px-12 realtive md:fixed bottom-0 right-0 left-0 text-gray-500 text-sm">
+      <footer className="inline-block w-full py-6 px-5 md:px-12 realtive md:fixed bottom-0 right-0 left-0 text-gray-500 text-sm z-20 footer">
         <div className="inline-block relative w-full md:flex align-middle items-center">
           <div className="inline-block relative w-full md:w-1/4 mb-8 md:mb-0">
             <Logotype company={company} />

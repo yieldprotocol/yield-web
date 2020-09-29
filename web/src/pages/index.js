@@ -1,22 +1,20 @@
-import React, { useState } from 'react'
-import { graphql, Link } from 'gatsby'
+import React from 'react'
+import { graphql } from 'gatsby'
+import MailchimpSubscribe from 'react-mailchimp-subscribe'
 
-import { mapEdgesToNodes, filterOutDocsWithoutSlugs, buildImageObj } from '../lib/helpers'
+import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
 import GraphQLErrorList from '../components/graphql-error-list'
-import BlockContent from '../components/block-content'
 import ContainerFull from '../components/container-full'
-import Button from '../components/button'
 import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
 
-const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8 text-gray-600'
-const ClassLinks = 'inline-block relative w-full text-xs md:text-sm underline link py-1 font-light'
+const ParagraphClass = 'inline-block relative w-full text-sm md:text-base text-gray-100 mb-8'
 
 export const query = graphql`
-  query IndexPageQuery {
+  query TempPageQuery {
     site: sanitySiteSettings(_id: { regex: "/(drafts.|)siteSettings/" }) {
       title
       description
@@ -26,36 +24,6 @@ export const query = graphql`
         }
       }
       keywords
-    }
-
-    page: sanityHome(_id: { regex: "/(drafts.|)home/" }) {
-      id
-      title
-      heading
-      _rawBody
-      mainImage {
-        asset {
-          _id
-        }
-      }
-      ctaPrimary
-      ctaPrimaryURL
-      ctaSecondary
-      ctaSecondaryURL
-      stats {
-        stat
-        title
-        description
-        url
-        image {
-          asset {
-            _id
-          }
-        }
-      }
-      showBlog
-      mainCTA
-      mainCTAURL
     }
   }
 `
@@ -72,9 +40,6 @@ const IndexPage = props => {
   }
 
   const site = (data || {}).site
-  const page = (data || {}).page
-
-  console.log(page)
 
   if (!site) {
     throw new Error(
@@ -82,64 +47,57 @@ const IndexPage = props => {
     )
   }
 
-  if (!page) {
-    throw new Error(
-      'Missing "Pages > Home". Open the studio at http://localhost:3333 and add some content to "Pages > Home" and restart the development server.'
+  const SignupForm = ({ status, message, onValidated }) => {
+    let email
+    const submit = e => {
+      e.preventDefault()
+      email &&
+        email.value.indexOf('@') > -1 &&
+        onValidated({
+          EMAIL: email.value
+        })
+    }
+
+    return (
+      <form className="inline-block relative w-full" onSubmit={submit}>
+        <input
+          placeholder="Your email"
+          className="inline-block relative w-full p-4 bg-gray-800 text-white mb-4 rounded"
+          ref={node => (email = node)}
+          type="email"
+        />
+        <button
+          className="inline-block relative w-full p-4 rounded font-bold gradient-button text-white"
+          onClick={submit}
+          type="submit"
+        >
+          Submit
+        </button>
+        <div className="inline-block relative w-full text-xs">
+          {status === 'sending' && (
+            <div className="inline-block relative w-full mt-4 text-gray-600">Subscribing...</div>
+          )}
+          {status === 'error' && (
+            <div
+              className="inline-block relative w-full mt-4 text-yellow-500"
+              dangerouslySetInnerHTML={{ __html: message }}
+            />
+          )}
+          {status === 'success' && (
+            <div
+              className="inline-block relative w-full mt-4 text-green-400"
+              dangerouslySetInnerHTML={{ __html: message }}
+            />
+          )}
+        </div>
+      </form>
     )
   }
-
-  const Stat = ({ stat }) => (
-    <div className="inline-block text-white border-b-4 border-solid border-gray-800 py-4">
-      <strong className="inline-block relative w-full text-2xl font-bold mb-4">{stat.stat}</strong>
-      {stat.image ? (
-        <img
-          className="inline-block w-full h-48 fit rounded-sm mb-4"
-          src={imageUrlFor(buildImageObj(stat.image))}
-        />
-      ) : null}
-      {stat.title ? (
-        <p className="inline-block relative w-full text-base text-gray-400 font-semibold mb-4">
-          {stat.title}
-        </p>
-      ) : null}
-
-      {stat.description ? (
-        <p className="inline-block relative w-full text-sm text-gray-500">{stat.description}</p>
-      ) : null}
-      {stat.url ? (
-        <a
-          className="inline-block relative w-full text-sm text-gray-500 link underline"
-          href={stat.url}
-        >
-          View link
-        </a>
-      ) : null}
-    </div>
-  )
-
-  const NavLinks = [
-    {
-      title: 'About us',
-      to: '/about'
-    },
-    {
-      title: 'Mission',
-      to: '/mission'
-    },
-    {
-      title: 'Careers',
-      to: '/careers'
-    },
-    {
-      title: 'Blog',
-      to: '/blog'
-    }
-  ]
 
   return (
     <Layout>
       <SEO
-        title={page.title}
+        title={site.title}
         description={site.description}
         keywords={site.keywords}
         image={
@@ -148,75 +106,35 @@ const IndexPage = props => {
             : false
         }
       />
-      <ContainerFull>
-        <div className="inline-block md:flex h-full">
-          {/* Left */}
-          <div className="inline-block relative nav w-full md:w-1/4 mb-8 md:mb-0">
-            {NavLinks.map((item, index) => (
-              <Link
-                className={`${ClassLinks} ${
-                  NavLinks.length !== index + 1 ? 'mr-0 md:mr-4' : 'mr-0 md:mr-0'
-                }`}
-                key={Math.random()}
-                to={item.to}
-              >
-                {item.title}
-              </Link>
-            ))}
-          </div>
-          {/* Middle */}
-          <div className="inline-block relative w-full md:w-2/4 mb-8 md:mb-0 pr-0 md:pr-16">
-            <h1 className="text-4xl md:text-6xl font-display">
-              {page.heading || `Borrow at fixed rates. Earn predictable interest.`}
-            </h1>
-            <div className={`${ParagraphClass}`}>
-              <BlockContent blocks={page._rawBody || []} />
+      <ContainerFull
+        style={{
+          background: `url(/img/farming.jpe)`,
+          backgroundPosition: 'center 25%',
+          backgroundSize: 'cover'
+        }}
+      >
+        <div className="flex items-center h-full w-full text-center mt-12 md:mt-0">
+          <div className="mx-auto bg-gray-900 p-8 md:p-12 rounded w-full max-w-xl">
+            <h1 className="hidden">Yield Protocol</h1>
+            <div className="block mx-auto mb-8 h-6">
+              <img className="inline-block relative h-full fit" src="/type-white-1.svg" />
             </div>
-            {page.ctaPrimary || page.ctaSecondary ? (
-              <div className="inline-block relative w-full">
-                <div className="inline-block md:flex justify-start items-center relative w-full md:w-auto m-auto">
-                  <Button
-                    external
-                    margin="mr-4 mb-4 md:mb-0"
-                    text={page.ctaPrimary}
-                    to={page.ctaPrimaryURL}
-                  />
-                  <Button
-                    external
-                    margin="mb-8 md:mb-0"
-                    text={page.ctaSecondary}
-                    to={page.ctaSecondaryURL}
-                  ></Button>
-                </div>
-              </div>
-            ) : null}
-          </div>
-          {/* Right */}
-          <div className="inline-block relative w-full md:w-1/4 text-left md:text-right">
-            <div className="relative md:absolute bottom-0 right-0 text-xs text-white opacity-75 w-full md:w-48">
-              <p>
-                Yield has been audited by ASDF on September 1, 2020 to learn more{' '}
-                <a href="https://#/" target="_blank" className="underline link">
-                  read the report here
-                </a>
-                .
-              </p>
-            </div>
+            <p className={ParagraphClass}>Stay up to date with Yield:</p>
+            <MailchimpSubscribe
+              render={({ subscribe, status, message }) => (
+                <SignupForm
+                  onValidated={formData => subscribe(formData)}
+                  status={status}
+                  message={message}
+                />
+              )}
+              url={
+                'https://yield.us8.list-manage.com/subscribe/post?u=ba7359e990d89455a1c9be0e2&amp;id=025d8e6707'
+              }
+            />
           </div>
         </div>
       </ContainerFull>
-      {/* Image */}
-      {page.mainImage ? (
-        <img
-          className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
-          src={imageUrlFor(buildImageObj(page.mainImage)).url()}
-        />
-      ) : (
-        <img
-          className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
-          src="/img/moon/spaceman.png"
-        />
-      )}
     </Layout>
   )
 }
