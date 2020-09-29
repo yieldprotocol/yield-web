@@ -190,9 +190,9 @@ const IndexPage = props => {
           <div className="inline-block relative w-full md:w-1/4 text-left md:text-right">
             <div className="relative md:absolute bottom-0 right-0 text-xs text-white opacity-75 w-full md:w-48">
               <p>
-                Yield has been audited by ASDF on September 1, 2020 to learn more{' '}
+                Yield has been audited by Trail of Bits.
                 <a href="https://#/" target="_blank" className="underline link">
-                  read the report here
+                  View the Report here
                 </a>
                 .
               </p>
