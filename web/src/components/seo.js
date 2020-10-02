@@ -133,7 +133,7 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
                 name: 'msapplication-config'
               },
               {
-                content: '#241e53',
+                content: '#5641ff',
                 name: 'theme-color'
               }
             ]
