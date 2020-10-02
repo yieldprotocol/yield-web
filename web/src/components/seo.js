@@ -114,10 +114,14 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
               },
               {
                 name: 'twitter:card',
-                content: 'summary'
+                content: 'summary_large_image'
               },
               {
-                name: 'twitter:creator',
+                name: 'twitter:image',
+                content: socialImage
+              },
+              {
+                name: 'twitter:site',
                 content: data.site.author
               },
               {
