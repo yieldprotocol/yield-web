@@ -109,6 +109,10 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
                 content: 'website'
               },
               {
+                property: 'og:url',
+                content: 'https://yield.is/'
+              },
+              {
                 name: 'twitter:card',
                 content: 'summary'
               },
