@@ -30,6 +30,17 @@ const Footer = class extends React.Component {
 
     const footerLinks = [
       {
+        title: 'Follow us',
+        list: socials.map(social => {
+          return {
+            external: true,
+            title: social.title,
+            image: social.image,
+            link: social.url
+          }
+        })
+      },
+      {
         title: 'Resources',
         list: [
           // {
@@ -40,19 +51,13 @@ const Footer = class extends React.Component {
             external: true,
             title: 'White paper',
             link: '/Yield.pdf'
+          },
+          {
+            external: true,
+            title: 'Yield space',
+            link: '/YieldSpace.pdf'
           }
         ]
-      },
-      {
-        title: 'Follow us',
-        list: socials.map(social => {
-          return {
-            external: true,
-            title: social.title,
-            image: social.image,
-            link: social.url
-          }
-        })
       }
     ]
 
@@ -86,7 +91,7 @@ const Footer = class extends React.Component {
               <LinkComponent title={object.title} list={object.list} key={index} />
             ))}
           </div>
-          <div className="inline-block relative w-full md:1/4"></div>
+          <div className="inline-block relative w-full md:1/4">&nbsp;</div>
         </div>
       </footer>
     )
