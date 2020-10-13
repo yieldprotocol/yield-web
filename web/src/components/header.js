@@ -35,10 +35,14 @@ const Header = class extends React.Component {
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        <a href="https://twitter.com/yield" className="underline inherit link mr-4 md:mr-8" target="_blank">
+        <a
+          href="https://twitter.com/yield"
+          className="underline inherit link mr-4 md:mr-8"
+          target="_blank"
+        >
           Follow us on Twitter
         </a>
-        <Button external gradient primary text="Try the app" to="app.yield.is" />
+        <Button external gradient primary text="Try the app" to="https://app.yield.is" />
       </div>
     )
 
