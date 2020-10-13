@@ -141,7 +141,7 @@ const IndexPage = props => {
                 <div className="inline-block md:flex justify-center items-center relative w-full">
                   <Button
                     external
-                    margin="mr-4 mb-4 md:mb-0 bounce"
+                    margin="mr-4 mb-4 md:mb-0"
                     text={page.ctaPrimary}
                     to={page.ctaPrimaryURL}
                   />
