@@ -8,7 +8,7 @@ import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
 const classLinks =
-  'inline-block align-middle w-full md:w-auto font-normal text-gray-600 text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
+  'inline-block align-middle w-full md:w-auto font-normal inherit text-sm mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
 
 const Footer = class extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ const Footer = class extends React.Component {
   }
 
   render() {
-    const { country, socials, company, email, city } = this.props
+    const { country, socials, company, email, city, dark } = this.props
 
     const footerLinks = [
       {
@@ -43,10 +43,11 @@ const Footer = class extends React.Component {
       {
         title: 'Resources',
         list: [
-          // {
-          //   title: 'FAQ',
-          //   link: '/faq'
-          // },
+          {
+            external: true,
+            title: 'Blog',
+            link: 'https://medium.com/yield-protocol'
+          },
           {
             external: true,
             title: 'White paper',
@@ -81,17 +82,17 @@ const Footer = class extends React.Component {
       )
 
     return (
-      <footer className="inline-block w-full py-6 px-5 md:px-12 realtive md:fixed bottom-0 right-0 left-0 text-gray-500 text-sm z-20 footer">
-        <div className="inline-block relative w-full md:flex align-middle items-center">
-          <div className="inline-block relative w-full md:w-1/4 mb-8 md:mb-0">
-            <Logotype company={company} />
-          </div>
-          <div className="inline-block relative w-full md:w-2/4">
+      <footer
+        className={`inline-block w-full py-6 px-5 md:px-12 realtive md:fixed bottom-0 right-0 left-0 text-sm z-20 footer ${
+          dark ? 'text-gray-300' : 'text-gray-500'
+        }`}
+      >
+        <div className="inline-block relative w-full md:flex align-middle items-center justify-center">
+          <div className="inline-block relative w-full md:w-2/4 text-left md:text-center">
             {footerLinks.map((object, index) => (
               <LinkComponent title={object.title} list={object.list} key={index} />
             ))}
           </div>
-          <div className="inline-block relative w-full md:1/4">&nbsp;</div>
         </div>
       </footer>
     )

@@ -22,6 +22,11 @@ export default {
       type: "blockContent"
     },
     {
+      name: "audit",
+      title: "Audit text",
+      type: "blockContent"
+    },
+    {
       name: "mainImage",
       title: "Main image",
       type: "mainImage"

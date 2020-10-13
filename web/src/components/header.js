@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Logotype from './logotype'
+import Button from './button'
 
 const Header = class extends React.Component {
   constructor(props) {
@@ -30,31 +31,29 @@ const Header = class extends React.Component {
   }
 
   render() {
-    const { company } = this.props
+    const { company, dark } = this.props
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        {/* <a href="https://app.yield.is/" className="underline inherit link" target="_blank">
-          Try the app
-        </a> */}
-        <a href="https://twitter.com/yield" className="underline inherit link" target="_blank">
+        <a href="https://twitter.com/yield" className="underline inherit link mr-4 md:mr-8" target="_blank">
           Follow us on Twitter
         </a>
+        <Button external gradient primary text="Try the app" to="app.yield.is" />
       </div>
     )
 
     return (
       <nav
         aria-label="main-navigation"
-        className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none text-gray-600 font-display ${
+        className={`navbar inline-block fixed w-full left-0 top-0 z-20 border-none font-display ${
           this.state.isTop ? `py-8` : `py-4`
-        }`}
+        } ${dark ? 'dark text-gray-300' : 'text-gray-600'}`}
         role="navigation"
       >
         <div className={`mx-auto px-5 md:px-12`}>
           <div className="flex w-full justify-between items-center">
             {/* Left */}
-            <Logotype company={company} />
+            <Logotype company={company} dark={dark} />
             {/* Right */}
             <div className="hidden md:inline-block relative tr">
               <RightNav />
