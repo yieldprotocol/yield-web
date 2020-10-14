@@ -86,12 +86,11 @@ const Footer = class extends React.Component {
           <div className="inline-block relative w-full md:w-1/4 mb-8 md:mb-0">
             <Logotype company={company} />
           </div>
-          <div className="inline-block relative w-full md:w-2/4">
+          <div className="inline-block relative w-full md:w-3/4">
             {footerLinks.map((object, index) => (
               <LinkComponent title={object.title} list={object.list} key={index} />
             ))}
           </div>
-          <div className="inline-block relative w-full md:1/4">&nbsp;</div>
         </div>
       </footer>
     )
