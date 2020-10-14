@@ -88,7 +88,7 @@ const Footer = class extends React.Component {
         }`}
       >
         <div className="inline-block relative w-full md:flex align-middle items-center justify-center">
-          <div className="inline-block relative w-full md:w-2/4 text-left md:text-center">
+          <div className="inline-block relative w-full md:w-3/4 text-left md:text-center">
             {footerLinks.map((object, index) => (
               <LinkComponent title={object.title} list={object.list} key={index} />
             ))}
