@@ -162,18 +162,6 @@ const IndexPage = props => {
           <img className="w-full contain" src="/img/growth_opt.png" />
         </div>
       </ContainerFull>
-      {/* Image */}
-      {/* {page.mainImage ? (
-        <img
-          className="hidden md:block absolute bottom-0 right-0 top-0 w-screen h-screen fit z-0"
-          src={imageUrlFor(buildImageObj(page.mainImage)).url()}
-        />
-      ) : (
-        <img
-          className="hidden md:block absolute bottom-0 right-0 top-0 min-h-display h-screen fit z-0"
-          src="/img/moon/spaceman.png"
-        />
-      )} */}
     </Layout>
   )
 }
