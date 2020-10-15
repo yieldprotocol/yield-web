@@ -123,12 +123,13 @@ const IndexPage = props => {
       />
       <ContainerFull
         style={{
-          background: `url(${imageUrlFor(buildImageObj(page.mainImage)).url()})`,
+          // background: `url(${imageUrlFor(buildImageObj(page.mainImage)).url()})`,
+          background: 'url("/img/astronaut.png")',
           backgroundPosition: 'center 25%',
           backgroundSize: 'cover'
         }}
       >
-        <div className="flex align-middle items-center mx-auto max-w-2xl h-full text-left md:text-center">
+        <div className="flex align-middle items-center mx-auto max-w-2xl h-full text-left md:text-center relative z-10">
           <div className="inline-block relative w-full mb-8 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-display">
               {page.heading || `Borrow at fixed rates. Earn predictable interest.`}
@@ -162,6 +163,10 @@ const IndexPage = props => {
               </div>
             ) : null}
           </div>
+        </div>
+        {/* Sticky fruits */}
+        <div className="absolute bottom-0 right-0 left-0 fruits z-1">
+          <img className="w-full contain" src="/img/growth_opt.png" />
         </div>
       </ContainerFull>
       {/* Image */}
