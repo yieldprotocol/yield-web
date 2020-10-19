@@ -1,20 +1,24 @@
 import React from 'react'
-import { graphql } from 'gatsby'
-import MailchimpSubscribe from 'react-mailchimp-subscribe'
+import { graphql, Link } from 'gatsby'
+import { ArrowUpRight } from 'react-feather'
 
 import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
 import GraphQLErrorList from '../components/graphql-error-list'
+import BlockContent from '../components/block-content'
 import ContainerFull from '../components/container-full'
+import Button from '../components/button'
 import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
 
-const ParagraphClass = 'inline-block relative w-full text-sm md:text-base text-gray-600 mb-8'
+const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8 text-gray-100'
+const ClassLinks =
+  'flex justify-start items-center relative w-full text-xs md:text-sm underline link py-1 font-light'
 
 export const query = graphql`
-  query TempPageQuery {
+  query IndexPageQuery {
     site: sanitySiteSettings(_id: { regex: "/(drafts.|)siteSettings/" }) {
       title
       description
@@ -24,6 +28,37 @@ export const query = graphql`
         }
       }
       keywords
+    }
+
+    page: sanityHome(_id: { regex: "/(drafts.|)home/" }) {
+      id
+      title
+      heading
+      _rawBody
+      mainImage {
+        asset {
+          _id
+        }
+      }
+      _rawAudit
+      ctaPrimary
+      ctaPrimaryURL
+      ctaSecondary
+      ctaSecondaryURL
+      stats {
+        stat
+        title
+        description
+        url
+        image {
+          asset {
+            _id
+          }
+        }
+      }
+      showBlog
+      mainCTA
+      mainCTAURL
     }
   }
 `
@@ -40,6 +75,7 @@ const IndexPage = props => {
   }
 
   const site = (data || {}).site
+  const page = (data || {}).page
 
   if (!site) {
     throw new Error(
@@ -47,57 +83,36 @@ const IndexPage = props => {
     )
   }
 
-  const SignupForm = ({ status, message, onValidated }) => {
-    let email
-    const submit = e => {
-      e.preventDefault()
-      email &&
-        email.value.indexOf('@') > -1 &&
-        onValidated({
-          EMAIL: email.value
-        })
-    }
-
-    return (
-      <form className="inline-block relative w-full" onSubmit={submit}>
-        <input
-          placeholder="Your email"
-          className="inline-block relative w-full p-4 bg-white text-gray-600 mb-4 rounded border border-2 border-gray-300"
-          ref={node => (email = node)}
-          type="email"
-        />
-        <button
-          className="inline-block relative w-full p-4 rounded font-bold gradient-button text-white"
-          onClick={submit}
-          type="submit"
-        >
-          Submit
-        </button>
-        <div className="inline-block relative w-full text-xs">
-          {status === 'sending' && (
-            <div className="inline-block relative w-full mt-4 text-gray-600">Subscribing...</div>
-          )}
-          {status === 'error' && (
-            <div
-              className="inline-block relative w-full mt-4 text-yellow-500"
-              dangerouslySetInnerHTML={{ __html: message }}
-            />
-          )}
-          {status === 'success' && (
-            <div
-              className="inline-block relative w-full mt-4 text-green-400"
-              dangerouslySetInnerHTML={{ __html: message }}
-            />
-          )}
-        </div>
-      </form>
+  if (!page) {
+    throw new Error(
+      'Missing "Pages > Home". Open the studio at http://localhost:3333 and add some content to "Pages > Home" and restart the development server.'
     )
   }
 
+  const NavLinks = [
+    {
+      title: 'About us',
+      to: '/about'
+    },
+    {
+      title: 'White papers',
+      to: '/white-papers'
+    },
+    {
+      title: 'Careers',
+      to: '/careers'
+    },
+    {
+      external: true,
+      title: 'Blog',
+      to: 'https://medium.com/yield-protocol'
+    }
+  ]
+
   return (
-    <Layout>
+    <Layout dark>
       <SEO
-        title={site.title}
+        title={page.title}
         description={site.description}
         keywords={site.keywords}
         image={
@@ -106,27 +121,45 @@ const IndexPage = props => {
             : false
         }
       />
-      <ContainerFull>
-        <div className="flex items-center h-full w-full text-center mt-12 md:mt-0 text-gray-600">
-          <div className="mx-auto bg-white border-2 border-gray-200 p-8 md:p-12 rounded w-full max-w-xl">
-            <h1 className="hidden">Yield Protocol</h1>
-            <div className="block mx-auto mb-8 h-6">
-              <img className="inline-block relative h-full fit" src="/type.svg" />
+      <ContainerFull className="astronaut overlay">
+        <div className="flex align-middle items-center mx-auto max-w-2xl h-full text-left md:text-center relative">
+          <div className="inline-block relative w-full mb-8 md:mb-0 z-10 content">
+            <h1 className="text-4xl md:text-5xl font-display">
+              {page.heading || `Borrow at fixed rates. Earn predictable interest.`}
+            </h1>
+            <div className={`${ParagraphClass}`}>
+              <BlockContent blocks={page._rawBody || []} />
             </div>
-            <p className={ParagraphClass}>Stay up to date with Yield:</p>
-            <MailchimpSubscribe
-              render={({ subscribe, status, message }) => (
-                <SignupForm
-                  onValidated={formData => subscribe(formData)}
-                  status={status}
-                  message={message}
-                />
-              )}
-              url={
-                'https://yield.us8.list-manage.com/subscribe/post?u=ba7359e990d89455a1c9be0e2&amp;id=025d8e6707'
-              }
-            />
+            {page.ctaPrimary || page.ctaSecondary ? (
+              <div className="inline-block relative w-full mb-12">
+                <div className="inline-block md:flex justify-center items-center relative w-full">
+                  <Button
+                    external
+                    margin="mr-4 mb-4 md:mb-0"
+                    text={page.ctaPrimary}
+                    to={page.ctaPrimaryURL}
+                  />
+                  <Button
+                    external
+                    margin="mb-8 md:mb-0"
+                    text={page.ctaSecondary}
+                    to={page.ctaSecondaryURL}
+                  ></Button>
+                </div>
+              </div>
+            ) : null}
+            {page._rawAudit ? (
+              <div className="inline-block relative w-full">
+                <div className="relative text-xs text-white opacity-75 w-full md:w-48 mx-auto">
+                  <BlockContent blocks={page._rawAudit || []} />
+                </div>
+              </div>
+            ) : null}
           </div>
+        </div>
+        {/* Sticky fruits */}
+        <div className="absolute bottom-0 right-0 left-0 fruits">
+          <img className="w-full contain" src="/img/growth_opt.png" />
         </div>
       </ContainerFull>
     </Layout>

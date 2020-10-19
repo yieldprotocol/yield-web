@@ -73,9 +73,9 @@ body
   -webkit-font-smoothing: auto
   text-rendering: optimizeLegibility
   letter-spacing: -0.5px
-  background: white
+  background: black
   transition: all 0.2s ease-in-out
-  color: black
+  color: white
 
 textarea,
 button,
@@ -182,5 +182,13 @@ figure
   background: url('/img/background.jpg') no-repeat center center
   background-size: cover
 
-.spaceman
-  transform: translate3d(-4rem, -4rem, 0)
+.astronaut
+  background: url('/img/astronaut.png') no-repeat center 25%
+  background-size: cover
+
+  @media screen and (max-width: 60rem)
+    background: url('/img/yield.jpg') no-repeat center center
+    background-size: cover
+
+.fruits
+  bottom: -50%

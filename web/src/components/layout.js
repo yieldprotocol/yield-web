@@ -17,11 +17,11 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { bgImage, children, companyInfo, siteTitle } = this.props
+    const { bgImage, children, companyInfo, siteTitle, dark } = this.props
 
     return (
       <>
-        <Header siteTitle={siteTitle} />
+        <Header siteTitle={siteTitle} dark={dark} />
         <div id="modal"></div>
         <div>{children}</div>
         <Footer
@@ -29,7 +29,8 @@ class Layout extends React.Component {
           company={companyInfo.name || `Yield`}
           socials={companyInfo.socials || []}
           email={companyInfo.email || `info@yield.is`}
-          city={companyInfo.city || `Austin`}
+          city={companyInfo.city || `Chicago`}
+          dark={dark}
         />
         {bgImage ? (
           <div
