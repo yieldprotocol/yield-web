@@ -35,7 +35,7 @@ const Header = class extends React.Component {
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        <Button external gradient primary text="Try the app" to="https://app.yield.is" />
+        <Button external gradient primary large text="Try the app" to="https://app.yield.is" />
       </div>
     )
 

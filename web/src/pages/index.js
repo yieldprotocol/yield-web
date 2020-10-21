@@ -227,7 +227,7 @@ const IndexPage = props => {
             </div>
             {page.ctaPrimary || page.ctaSecondary ? (
               <div className="inline-block relative w-full mb-12">
-                <div className="inline-block md:flex justify-center items-center relative w-full">
+                <div className="inline-block md:flex justify-center items-center relative w-full mb-4">
                   <Button
                     external
                     margin="mr-4 mb-4 md:mb-0"
@@ -236,15 +236,17 @@ const IndexPage = props => {
                   />
                   <Button
                     external
-                    margin="mr-4 mb-4 md:mb-0"
+                    margin="mb-4 md:mb-0"
                     text={page.ctaSecondary}
                     to={page.ctaSecondaryURL}
                   ></Button>
+                </div>
+                <div className="inline-block relative w-full">
                   <button
                     className="font-bold text-base underline link bg-transparent md:w-auto"
                     onClick={() => openModal()}
                   >
-                    Mailing list
+                    Join our mailing list
                   </button>
                 </div>
               </div>

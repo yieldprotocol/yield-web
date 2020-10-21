@@ -11,6 +11,7 @@ class Button extends React.Component {
       external,
       primary,
       margin,
+      large,
       small,
       full,
       type,
@@ -18,9 +19,9 @@ class Button extends React.Component {
       to
     } = this.props
 
-    const RenderClass = `${ButtonClass} ${small ? 'text-sm' : 'font-bold text-base'} ${
-      gradient ? 'gradient-button' : ''
-    } ${
+    const RenderClass = `${ButtonClass} ${
+      small ? 'text-sm' : large ? 'text-xl' : 'font-bold text-base'
+    } ${gradient ? 'gradient-button font-bold' : ''} ${
       outlined
         ? 'border-2 border-solid border-primary bg-transparent text-primary px-4 py-3'
         : 'underline link bg-transparent'
