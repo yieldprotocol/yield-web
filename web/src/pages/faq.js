@@ -14,7 +14,6 @@ import { imageUrlFor } from '../lib/image-url'
 import GraphQLErrorList from '../components/graphql-error-list'
 import BlockContent from '../components/block-content'
 import Container from '../components/container'
-import Button from '../components/button'
 import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
@@ -81,10 +80,6 @@ const FaqPage = props => {
     )
   }
 
-  const handleOnChange = ({ e }) => {
-    console.log(e)
-  }
-
   return (
     <Layout dark>
       <SEO
@@ -110,7 +105,6 @@ const FaqPage = props => {
               <Accordion
                 allowMultipleExpanded
                 className="inline-block relative w-full my-4 text-left leading-loose"
-                onChange={() => handleOnChange}
               >
                 {page.faq.map((faq, index) => (
                   <AccordionItem
