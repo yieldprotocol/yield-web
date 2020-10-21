@@ -11,6 +11,8 @@ import blockText from "./blockText";
 import career from "./career";
 import category from "./category";
 import companyInfo from "./companyInfo";
+import faq from "./faq";
+import faqs from "./faqs";
 import figure from "./figure";
 import home from "./home";
 import mainImage from "./mainImage";
@@ -43,6 +45,8 @@ export default createSchema({
     career,
     category,
     companyInfo,
+    faq,
+    faqs,
     figure,
     home,
     mainImage,

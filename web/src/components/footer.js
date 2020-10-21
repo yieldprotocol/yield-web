@@ -1,8 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-import Logotype from './logotype'
-
 import { logEvent } from '../utils/analytics'
 import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'

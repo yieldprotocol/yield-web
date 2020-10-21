@@ -8,6 +8,8 @@ const hiddenTypes = [
   "category",
   "companyInfo",
   "contact",
+  "faq",
+  "faqs",
   "home",
   "mission",
   "page",
@@ -69,6 +71,15 @@ export default () =>
                     .id("homePage")
                     .schemaType("home")
                     .documentId("home")
+                )
+                .icon(FaFile),
+              S.listItem()
+                .title("FAQs")
+                .child(
+                  S.editor()
+                    .id("faqPage")
+                    .schemaType("faqs")
+                    .documentId("faqs")
                 )
                 .icon(FaFile),
               S.listItem()
