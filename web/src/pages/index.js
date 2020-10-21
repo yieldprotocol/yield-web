@@ -1,6 +1,8 @@
-import React from 'react'
-import { graphql, Link } from 'gatsby'
-import { ArrowUpRight } from 'react-feather'
+import React, { useState } from 'react'
+import { graphql } from 'gatsby'
+import MailchimpSubscribe from 'react-mailchimp-subscribe'
+import Modal from 'react-modal'
+import { X } from 'react-feather'
 
 import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
@@ -14,8 +16,12 @@ import SEO from '../components/seo'
 import Layout from '../containers/layout'
 
 const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8 text-gray-100'
-const ClassLinks =
-  'flex justify-start items-center relative w-full text-xs md:text-sm underline link py-1 font-light'
+// const ClassLinks =
+//   'flex justify-start items-center relative w-full text-xs md:text-sm underline link py-1 font-light'
+
+if (typeof window !== 'undefined') {
+  Modal.setAppElement('body')
+}
 
 export const query = graphql`
   query IndexPageQuery {
@@ -66,6 +72,16 @@ export const query = graphql`
 const IndexPage = props => {
   const { data, errors } = props
 
+  const [modalIsOpen, setIsOpen] = useState(false)
+
+  function openModal() {
+    setIsOpen(true)
+  }
+
+  function closeModal() {
+    setIsOpen(false)
+  }
+
   if (errors) {
     return (
       <Layout>
@@ -109,6 +125,53 @@ const IndexPage = props => {
     }
   ]
 
+  const SignupForm = ({ status, message, onValidated }) => {
+    let email
+    const submit = e => {
+      e.preventDefault()
+      email &&
+        email.value.indexOf('@') > -1 &&
+        onValidated({
+          EMAIL: email.value
+        })
+    }
+
+    return (
+      <form className="inline-block relative w-full" onSubmit={submit}>
+        <input
+          placeholder="Your email"
+          className="inline-block relative w-full p-4 bg-white text-gray-600 mb-4 rounded border border-2 border-gray-300"
+          ref={node => (email = node)}
+          type="email"
+        />
+        <button
+          className="inline-block relative w-full p-4 rounded font-bold gradient-button text-white"
+          onClick={submit}
+          type="submit"
+        >
+          Submit
+        </button>
+        <div className="inline-block relative w-full text-xs">
+          {status === 'sending' && (
+            <div className="inline-block relative w-full mt-4 text-gray-600">Subscribing...</div>
+          )}
+          {status === 'error' && (
+            <div
+              className="inline-block relative w-full mt-4 text-yellow-500"
+              dangerouslySetInnerHTML={{ __html: message }}
+            />
+          )}
+          {status === 'success' && (
+            <div
+              className="inline-block relative w-full mt-4 text-green-400"
+              dangerouslySetInnerHTML={{ __html: message }}
+            />
+          )}
+        </div>
+      </form>
+    )
+  }
+
   return (
     <Layout dark>
       <SEO
@@ -121,6 +184,38 @@ const IndexPage = props => {
             : false
         }
       />
+
+      <Modal
+        overlayClassName="modal-overlay"
+        contentLabel="Mailing list"
+        className="modal text-left text-black relative leading-relaxed"
+        isOpen={modalIsOpen}
+      >
+        <button
+          className="absolute right-0 top-0 align-middle p-2 bg-black rounded-full overflow-hidden m-4 close"
+          onClick={() => closeModal()}
+        >
+          <X className="h-full w-full relative" color="white" />
+        </button>
+        <div className="inline-block relative w-full">
+          <strong className="text-lg md:text-xl font-bold inline-block relative w-full mb-6">
+            Sign up for our mailing list to keep up to date
+          </strong>
+          <MailchimpSubscribe
+            render={({ subscribe, status, message }) => (
+              <SignupForm
+                onValidated={formData => subscribe(formData)}
+                status={status}
+                message={message}
+              />
+            )}
+            url={
+              'https://yield.us8.list-manage.com/subscribe/post?u=ba7359e990d89455a1c9be0e2&amp;id=025d8e6707'
+            }
+          />
+        </div>
+      </Modal>
+
       <ContainerFull className="astronaut overlay">
         <div className="flex align-middle items-center mx-auto max-w-2xl h-full text-left md:text-center relative">
           <div className="inline-block relative w-full mb-8 md:mb-0 z-10 content">
@@ -141,10 +236,16 @@ const IndexPage = props => {
                   />
                   <Button
                     external
-                    margin="mb-8 md:mb-0"
+                    margin="mr-4 mb-4 md:mb-0"
                     text={page.ctaSecondary}
                     to={page.ctaSecondaryURL}
                   ></Button>
+                  <button
+                    className="font-bold text-base underline link bg-transparent md:w-auto"
+                    onClick={() => openModal()}
+                  >
+                    Mailing list
+                  </button>
                 </div>
               </div>
             ) : null}
