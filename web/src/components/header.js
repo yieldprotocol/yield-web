@@ -39,7 +39,7 @@ const Header = class extends React.Component {
         <Link className="inline-block relative mr-4 md:mr-8 link text-sm" to="/faq">
           FAQs
         </Link>
-        <Button external gradient primary text="Try the app" to="https://app.yield.is" />
+        <Button external gradient primary large text="Try the app" to="https://app.yield.is" />
       </div>
     )
 
