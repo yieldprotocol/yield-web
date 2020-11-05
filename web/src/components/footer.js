@@ -62,6 +62,25 @@ const Footer = class extends React.Component {
       }
     ]
 
+    const getAsset = title => {
+      console.log(title)
+      switch (title) {
+        case 'twitter':
+          return '/social/twitter.svg'
+          break
+        case 'discord':
+          return '/social/discord.svg'
+        case 'github':
+          return '/social/github.svg'
+        case 'docs':
+          return '/social/book.svg'
+        case 'defi pulse':
+          return '/social/defipulse.svg'
+        default:
+          break
+      }
+    }
+
     const LinkComponent = ({ title, list }) =>
       list.map((item, index) =>
         item.external ? (
@@ -69,7 +88,8 @@ const Footer = class extends React.Component {
             {item.image ? (
               <img
                 className="inline-block align-middle mr-2 h-4 w-4 contain"
-                src={imageUrlFor(buildImageObj(item.image))}
+                // src={imageUrlFor(buildImageObj(item.image))}
+                src={getAsset(item.title.toLowerCase())}
               />
             ) : null}{' '}
             {item.title} {item.cta}
