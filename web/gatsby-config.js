@@ -1,8 +1,9 @@
 require('dotenv').config({
   path: `.env.${process.env.NODE_ENV}`
 })
+
 const {
-  api: { projectId, dataset }
+  api: { projectId, dataset, token },
 } = requireConfig('../studio/sanity.json')
 
 module.exports = {
@@ -52,10 +53,10 @@ module.exports = {
         // To enable preview of drafts, copy .env-example into .env,
         // and add a token with read permissions
         overlayDrafts: true,
-        projectId: process.env.SANITY_PROJECT_ID,
         watchMode: true,
         dataset: process.env.SANITY_DATASET,
-        token: process.env.SANITY_TOKEN
+        projectId,
+        token,
       }
     }
   ]

@@ -4,6 +4,25 @@
     "projectId": "scjh4woa",
     "dataset": "staging"
   },
+  "__experimental_spaces": [
+    {
+      "name": "production",
+      "title": "Prod",
+      "default": true,
+      "api": {
+        "projectId": "scjh4woa",
+        "dataset": "production"
+      }
+    },
+    {
+      "name": "staging",
+      "title": "Staging",
+      "api": {
+        "projectId": "scjh4woa",
+        "dataset": "staging"
+      }
+    }
+  ],
   "project": {
     "name": "Yield CMS",
     "basePath": "/"
