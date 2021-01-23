@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'gatsby'
 
-const ButtonClass = 'inline-block relative text-center'
+const ButtonClass = 'inline-block relative text-center rounded-lg'
 
 class Button extends React.Component {
   render() {
@@ -23,11 +23,11 @@ class Button extends React.Component {
       small ? 'text-sm' : large ? 'text-xl' : 'font-bold text-base'
     } ${gradient ? 'gradient-button font-bold' : ''} ${
       outlined
-        ? 'border-2 border-solid border-primary bg-transparent text-primary px-4 py-3'
-        : 'underline link bg-transparent'
+        ? 'border-2 border-solid border-indigo-700 bg-transparent text-indigo-700 px-4 py-3'
+        : 'link bg-transparent'
     } ${
       primary
-        ? 'border-2 border-solid border-primary bg-primary text-white px-4 py-2'
+        ? 'border-2 border-solid border-indigo-700 bg-indigo-700 text-white px-4 py-2'
         : 'bg-transparent'
     } ${margin ? margin : ''} ${full ? 'md:w-full' : 'md:w-auto'}`
 

@@ -70,8 +70,12 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
                 rel: 'shortcut icon'
               },
               {
+                href: 'https://fonts.gstatic.com',
+                rel: 'preconnect'
+              },
+              {
                 href:
-                  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@600&display=swap',
+                  'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap',
                 rel: 'stylesheet'
               }
             ]}

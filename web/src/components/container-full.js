@@ -1,11 +1,11 @@
 import React from 'react'
 
-const ContainerFull = ({ children, className, style }) => {
+const ContainerFull = ({ children, padding, className, style }) => {
   return (
     <section
-      className={`inline-block relative w-full min-h-display md:h-screen text-white py-32 px-5 md:px-12 leading-relaxed z-10 overflow-hidden ${
+      className={`inline-block relative w-full min-h-display md:h-screen text-white leading-relaxed z-10 overflow-hidden ${
         className ? className : ''
-      }`}
+      } ${padding ? padding : ' py-32 px-5 md:px-12'}`}
       style={style}
     >
       {children}

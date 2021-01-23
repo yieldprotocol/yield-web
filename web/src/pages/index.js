@@ -3,6 +3,8 @@ import { graphql } from 'gatsby'
 import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import Modal from 'react-modal'
 import { X } from 'react-feather'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import Select from 'react-select'
 
 import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
@@ -22,6 +24,43 @@ const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8 t
 if (typeof window !== 'undefined') {
   Modal.setAppElement('body')
 }
+
+const borrow = {
+  cta: 'Borrow',
+  heading: 'Borrow today & pay fixed interest.'
+}
+
+const lend = {
+  cta: 'Lend',
+  heading: 'Lend today & earn fixed interest.'
+}
+
+const series = [
+  {
+    value: 'mar-2021',
+    label: 'March 2021 • APR: 3.86',
+    date: 'March 2021',
+    apr: 3.86
+  },
+  {
+    value: 'jun-2021',
+    label: 'June 2021 • APR: 3.61',
+    date: 'June 2021',
+    apr: 3.61
+  },
+  {
+    value: 'sep-2021',
+    label: 'September 2021 • APR: 2.84',
+    date: 'September 2021',
+    apr: 2.84
+  },
+  {
+    value: 'dec-2021',
+    label: 'December 2021 • APR: 3.84',
+    date: 'December 2021',
+    apr: 3.84
+  }
+]
 
 export const query = graphql`
   query IndexPageQuery {
@@ -73,6 +112,10 @@ const IndexPage = props => {
   const { data, errors } = props
 
   const [modalIsOpen, setIsOpen] = useState(false)
+  const [selectedSeries, setSelectedSeries] = useState(series[0])
+  const [amount, setAmount] = useState(100)
+  const [rate, setRate] = useState(0)
+  const [tab, setTab] = useState(borrow)
 
   function openModal() {
     setIsOpen(true)
@@ -145,31 +188,48 @@ const IndexPage = props => {
           type="email"
         />
         <button
-          className="inline-block relative w-full p-4 rounded font-bold gradient-button text-white"
+          className="inline-block relative w-full p-4 rounded font-bold bg-indigo-700 text-white"
           onClick={submit}
           type="submit"
         >
           Submit
         </button>
-        <div className="inline-block relative w-full text-xs">
-          {status === 'sending' && (
-            <div className="inline-block relative w-full mt-4 text-gray-600">Subscribing...</div>
-          )}
-          {status === 'error' && (
-            <div
-              className="inline-block relative w-full mt-4 text-yellow-500"
-              dangerouslySetInnerHTML={{ __html: message }}
-            />
-          )}
-          {status === 'success' && (
-            <div
-              className="inline-block relative w-full mt-4 text-green-400"
-              dangerouslySetInnerHTML={{ __html: message }}
-            />
-          )}
-        </div>
+        {status ? (
+          <div className="inline-block relative w-full text-xs">
+            {status === 'sending' && (
+              <div className="inline-block relative w-full mt-4 text-gray-600">Subscribing...</div>
+            )}
+            {status === 'error' && (
+              <div
+                className="inline-block relative w-full mt-4 text-yellow-500"
+                dangerouslySetInnerHTML={{ __html: message }}
+              />
+            )}
+            {status === 'success' && (
+              <div
+                className="inline-block relative w-full mt-4 text-green-400"
+                dangerouslySetInnerHTML={{ __html: message }}
+              />
+            )}
+          </div>
+        ) : null}
       </form>
     )
+  }
+
+  const switchTabs = index => {
+    let tab
+    switch (index) {
+      case 1:
+        tab = lend
+        break
+      default:
+        tab = borrow
+        break
+    }
+    console.log('Switched to:', tab)
+    setTab(tab)
+    return tab
   }
 
   return (
@@ -216,53 +276,59 @@ const IndexPage = props => {
         </div>
       </Modal>
 
-      <ContainerFull className="astronaut overlay">
-        <div className="flex align-middle items-center mx-auto max-w-2xl h-full text-left md:text-center relative">
-          <div className="inline-block relative w-full mb-8 md:mb-0 z-10 content">
-            <h1 className="text-4xl md:text-5xl font-display">
-              {page.heading || `Borrow at fixed rates. Earn predictable interest.`}
-            </h1>
-            <div className={`${ParagraphClass}`}>
-              <BlockContent blocks={page._rawBody || []} />
+      <ContainerFull padding="p-0">
+        <div className="h-full app">
+          {/* Form */}
+          <div className="h-full pt-32 pb-4 md:py-32 px-5 md:px-12 series text-center">
+            <div className="block mx-auto max-w-xs mb-4 md:mb-8">
+              <p className="text-orange-300 font-bold tracking-widest text-3xl uppercase m-0">
+                {selectedSeries.date}
+              </p>
+              <h1 className="text-6xl font-semibold p-0 m-0">{selectedSeries.apr}%</h1>
+              <p className="text-xl font-normal mb-8 text-indigo-200">Fixed rate interest</p>
+              <strong class="block text-xs uppercase text-indigo-600 tracking-widest mb-2">
+                Change series
+              </strong>
+              <Select
+                className="select"
+                isSearchable={false}
+                onChange={setSelectedSeries}
+                isMulti={false}
+                options={series}
+                value={selectedSeries}
+              />
+              <Tabs className="my-8" onSelect={index => switchTabs(index)}>
+                <TabList className="flex align-middle justify-center rounded-full w-auto">
+                  <Tab>{borrow.cta}</Tab>
+                  <Tab>{lend.cta}</Tab>
+                </TabList>
+              </Tabs>
+              <form onSubmit={() => formSubmit()}>
+                <label htmlFor="amount">Amount of DAI to {tab.cta}</label>
+                <input
+                  className="inline-block relative w-full px-2 py-1 bg-transparent border-2 rounded-md border-indigo-500"
+                  type="number"
+                  onChange={event => setAmount(event.target.value)}
+                  value={amount}
+                  id="amount"
+                />
+              </form>
             </div>
-            {page.ctaPrimary || page.ctaSecondary ? (
-              <div className="inline-block relative w-full mb-12">
-                <div className="inline-block md:flex justify-center items-center relative w-full mb-4">
-                  <Button
-                    external
-                    margin="mr-4 mb-4 md:mb-0"
-                    text={page.ctaPrimary}
-                    to={page.ctaPrimaryURL}
-                  />
-                  <Button
-                    external
-                    margin="mb-4 md:mb-0"
-                    text={page.ctaSecondary}
-                    to={page.ctaSecondaryURL}
-                  ></Button>
-                </div>
-                <div className="inline-block relative w-full">
-                  <button
-                    className="font-bold text-base underline link bg-transparent md:w-auto"
-                    onClick={() => openModal()}
-                  >
-                    Join our mailing list
-                  </button>
-                </div>
-              </div>
-            ) : null}
-            {page._rawAudit ? (
-              <div className="inline-block relative w-full">
-                <div className="relative text-xs text-white opacity-75 w-full md:w-48 mx-auto">
-                  <BlockContent blocks={page._rawAudit || []} />
-                </div>
-              </div>
-            ) : null}
           </div>
-        </div>
-        {/* Sticky fruits */}
-        <div className="absolute bottom-0 right-0 left-0 fruits">
-          <img className="w-full contain" src="/img/growth_opt.png" />
+          {/* Right  */}
+          <div className="h-full py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest">
+            <h2 className="text-2xl font-semibold">{tab.heading}</h2>
+            <button
+              className="inline-block relative w-full rounded-md bg-white text-indigo-700 font-bold py-4 px-8 my-8"
+              onClick={() => formSubmit()}
+            >
+              {tab.cta} {amount} DAI
+            </button>
+            <p className="text-sm text-gray-500 tracking-wide">
+              Interest rates &amp; slippage are subject to changes from market volatility. Your
+              final transaction will not be completed if the rate becomes unfavorable.
+            </p>
+          </div>
         </div>
       </ContainerFull>
     </Layout>
