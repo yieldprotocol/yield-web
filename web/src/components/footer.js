@@ -63,7 +63,6 @@ const Footer = class extends React.Component {
     ]
 
     const getAsset = title => {
-      console.log(title)
       switch (title) {
         case 'twitter':
           return '/social/twitter.svg'
