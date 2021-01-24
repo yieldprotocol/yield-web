@@ -26,36 +26,38 @@ if (typeof window !== 'undefined') {
 }
 
 const borrow = {
-  cta: 'Borrow',
-  heading: 'Borrow today & pay fixed interest.'
+  heading: 'Borrow today & pay fixed interest.',
+  type: 'borrow',
+  cta: 'Borrow'
 }
 
 const lend = {
-  cta: 'Lend',
-  heading: 'Lend today & earn fixed interest.'
+  heading: 'Lend today & earn fixed interest.',
+  type: 'lend',
+  cta: 'Lend'
 }
 
 const series = [
   {
-    value: 'mar-2021',
+    value: '1617235199',
     label: 'March 2021 • APR: 3.86',
     date: 'March 2021',
     apr: 3.86
   },
   {
-    value: 'jun-2021',
+    value: '1625097599',
     label: 'June 2021 • APR: 3.61',
     date: 'June 2021',
     apr: 3.61
   },
   {
-    value: 'sep-2021',
+    value: '1633046399',
     label: 'September 2021 • APR: 2.84',
     date: 'September 2021',
     apr: 2.84
   },
   {
-    value: 'dec-2021',
+    value: '1640995199',
     label: 'December 2021 • APR: 3.84',
     date: 'December 2021',
     apr: 3.84
@@ -232,6 +234,14 @@ const IndexPage = props => {
     return tab
   }
 
+  const formSubmit = e => {
+    e.preventDefault()
+    console.log('form submitted, amount, series, tab', amount, selectedSeries, tab)
+    if (typeof window) {
+      window.open(`//app.yield.is/#/${tab.type}/${selectedSeries.value}?amount=${amount}`)
+    }
+  }
+
   return (
     <Layout dark>
       <SEO
@@ -303,7 +313,7 @@ const IndexPage = props => {
                   <Tab>{lend.cta}</Tab>
                 </TabList>
               </Tabs>
-              <form onSubmit={() => formSubmit()}>
+              <form onSubmit={e => formSubmit(e)}>
                 <label htmlFor="amount">Amount of DAI to {tab.cta}</label>
                 <input
                   className="inline-block relative w-full px-2 py-1 bg-transparent border-2 rounded-md border-indigo-500"
@@ -319,8 +329,8 @@ const IndexPage = props => {
           <div className="h-full py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest">
             <h2 className="text-2xl font-semibold">{tab.heading}</h2>
             <button
-              className="inline-block relative w-full rounded-md bg-white text-indigo-700 font-bold py-4 px-8 my-8"
-              onClick={() => formSubmit()}
+              className="inline-block relative w-full rounded-md bg-white text-indigo-700 font-bold py-4 px-8 my-8 link"
+              onClick={e => formSubmit(e)}
             >
               {tab.cta} {amount} DAI
             </button>
