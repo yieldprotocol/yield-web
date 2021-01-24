@@ -27,7 +27,7 @@ class Button extends React.Component {
         : 'link bg-transparent'
     } ${
       primary
-        ? 'border-2 border-solid border-indigo-700 bg-indigo-700 text-white px-4 py-2'
+        ? 'border-2 border-solid border-indigo-700 bg-indigo-700 text-white font-bold px-4 py-2'
         : 'bg-transparent'
     } ${margin ? margin : ''} ${full ? 'md:w-full' : 'md:w-auto'}`
 

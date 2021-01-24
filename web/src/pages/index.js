@@ -334,10 +334,16 @@ const IndexPage = props => {
             >
               {tab.cta} {amount} DAI
             </button>
-            <p className="text-sm text-gray-500 tracking-wide">
+            <p className="text-sm text-gray-500 tracking-wide mb-8">
               Interest rates &amp; slippage are subject to changes from market volatility. Your
               final transaction will not be completed if the rate becomes unfavorable.
             </p>
+            <button
+              className="inline-block relative w-full py-2 text-sm underline text-left"
+              onClick={() => openModal()}
+            >
+              Sign up for our mailing list
+            </button>
           </div>
         </div>
       </ContainerFull>
