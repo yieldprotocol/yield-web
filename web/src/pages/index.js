@@ -238,7 +238,7 @@ const IndexPage = props => {
     e.preventDefault()
     console.log('form submitted, amount, series, tab', amount, selectedSeries, tab)
     if (typeof window) {
-      window.open(`//app.yield.is/#/${tab.type}/${selectedSeries.value}?amount=${amount}`)
+      window.open(`//app.yield.is/#/${tab.type}/${selectedSeries.value}/${amount}`)
     }
   }
 
