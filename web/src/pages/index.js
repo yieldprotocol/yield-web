@@ -403,10 +403,10 @@ const IndexPage = props => {
           <div className="pt-32 pb-4 md:py-32 px-5 md:px-12 series text-center">
             <h2 className="text-2xl font-semibold mb-4">{tab.heading}</h2>
             <div className="block mx-auto max-w-xs mb-4 md:mb-8">
-              <p className="text-orange-300 font-bold tracking-widest text-3xl uppercase m-0">
+              <p className="text-orange-300 font-bold tracking-widest text-xl md:text-3xl uppercase m-0">
                 {selectedSeries.date}
               </p>
-              <h1 className="text-6xl font-semibold p-0 m-0">{selectedSeries.apr}%</h1>
+              <h1 className="text-5xl md:text-6xl font-semibold p-0 m-0">{selectedSeries.apr}%</h1>
               {/* <p className="text-xl font-normal mb-8 text-indigo-200">Fixed rate interest</p> */}
               <strong className="block text-xs uppercase text-indigo-600 tracking-widest mb-2">
                 Change series
