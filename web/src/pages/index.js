@@ -10,16 +10,12 @@ import { buildImageObj } from '../lib/helpers'
 import { imageUrlFor } from '../lib/image-url'
 
 import GraphQLErrorList from '../components/graphql-error-list'
-import BlockContent from '../components/block-content'
 import ContainerFull from '../components/container-full'
-import Button from '../components/button'
 import SEO from '../components/seo'
 
 import Layout from '../containers/layout'
 
-const ParagraphClass = 'inline-block relative w-full text-sm md:text-base my-8 text-gray-100'
-// const ClassLinks =
-//   'flex justify-start items-center relative w-full text-xs md:text-sm underline link py-1 font-light'
+import { logEvent } from '../utils/analytics'
 
 if (typeof window !== 'undefined') {
   Modal.setAppElement('body')
@@ -116,7 +112,6 @@ const IndexPage = props => {
   const [modalIsOpen, setIsOpen] = useState(false)
   const [selectedSeries, setSelectedSeries] = useState(series[0])
   const [amount, setAmount] = useState(100)
-  const [rate, setRate] = useState(0)
   const [tab, setTab] = useState(borrow)
 
   function openModal() {
@@ -150,26 +145,6 @@ const IndexPage = props => {
     )
   }
 
-  const NavLinks = [
-    {
-      title: 'About us',
-      to: '/about'
-    },
-    {
-      title: 'White papers',
-      to: '/white-papers'
-    },
-    {
-      title: 'Careers',
-      to: '/careers'
-    },
-    {
-      external: true,
-      title: 'Blog',
-      to: 'https://medium.com/yield-protocol'
-    }
-  ]
-
   const SignupForm = ({ status, message, onValidated }) => {
     let email
     const submit = e => {
@@ -179,6 +154,11 @@ const IndexPage = props => {
         onValidated({
           EMAIL: email.value
         })
+      logEvent({
+        category: 'Landing Page',
+        action: 'Subscribe to Mailing List',
+        label: 'Subscribed to Mailing List'
+      })
     }
 
     return (
@@ -219,6 +199,16 @@ const IndexPage = props => {
     )
   }
 
+  const switchSeries = series => {
+    console.log('Switched series:', series)
+    setSelectedSeries(series)
+    logEvent({
+      category: 'Landing Page',
+      action: 'Switched Series',
+      label: `Switched to ${series.label}`
+    })
+  }
+
   const switchTabs = index => {
     let tab
     switch (index) {
@@ -231,6 +221,11 @@ const IndexPage = props => {
     }
     console.log('Switched to:', tab)
     setTab(tab)
+    logEvent({
+      category: 'Landing Page',
+      action: 'Switched Tab',
+      label: `Switched to ${tab.cta}`
+    })
     return tab
   }
 
@@ -240,6 +235,24 @@ const IndexPage = props => {
     if (typeof window) {
       window.open(`//app.yield.is/#/${tab.type}/${selectedSeries.value}/${amount}`)
     }
+    if (tab.type === 'borrow') {
+      logEvent({
+        category: 'Landing Page',
+        action: 'Borrow',
+        label: amount ? amount : 'Borrow'
+      })
+    } else if (tab.type === 'lend') {
+      logEvent({
+        category: 'Landing Page',
+        action: 'Lend',
+        label: amount ? amount : 'Lend'
+      })
+    }
+    logEvent({
+      category: 'Landing Page',
+      action: 'Used App',
+      label: `Type: ${tab.cta}, Series: ${selectedSeries.label}, Amount: ${amount}`
+    })
   }
 
   return (
@@ -296,13 +309,13 @@ const IndexPage = props => {
               </p>
               <h1 className="text-6xl font-semibold p-0 m-0">{selectedSeries.apr}%</h1>
               <p className="text-xl font-normal mb-8 text-indigo-200">Fixed rate interest</p>
-              <strong class="block text-xs uppercase text-indigo-600 tracking-widest mb-2">
+              <strong className="block text-xs uppercase text-indigo-600 tracking-widest mb-2">
                 Change series
               </strong>
               <Select
                 className="select"
                 isSearchable={false}
-                onChange={setSelectedSeries}
+                onChange={selectedSeries => switchSeries(selectedSeries)}
                 isMulti={false}
                 options={series}
                 value={selectedSeries}
@@ -312,6 +325,8 @@ const IndexPage = props => {
                   <Tab>{borrow.cta}</Tab>
                   <Tab>{lend.cta}</Tab>
                 </TabList>
+                <TabPanel className="hidden">&nbsp;</TabPanel>
+                <TabPanel className="hidden">&nbsp;</TabPanel>
               </Tabs>
               <form onSubmit={e => formSubmit(e)}>
                 <label htmlFor="amount">Amount of DAI to {tab.cta}</label>
@@ -335,8 +350,8 @@ const IndexPage = props => {
               {tab.cta} {amount} DAI
             </button>
             <p className="text-sm text-gray-500 tracking-wide mb-8">
-              Interest rates &amp; slippage are subject to changes from market volatility. Your
-              final transaction will not be completed if the rate becomes unfavorable.
+              Interest rates shown are market rates and are subject to change. Your rate may vary
+              based on the amount borrowed. Rates shown are for information purposes only.
             </p>
             <button
               className="inline-block relative w-full py-2 text-sm underline text-left"
