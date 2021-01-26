@@ -35,7 +35,7 @@ const Header = class extends React.Component {
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        <Button external primary large text="Launch app" to="https://app.yield.is" />
+        <Button external primary text="Pool &amp; rate lock" to="https://app.yield.is" />
       </div>
     )
 

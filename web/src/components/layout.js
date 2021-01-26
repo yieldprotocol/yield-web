@@ -24,14 +24,14 @@ class Layout extends React.Component {
         <Header siteTitle={siteTitle} dark={dark} />
         <div id="modal"></div>
         <div>{children}</div>
-        <Footer
+        {/* <Footer
           country={companyInfo.country || `USA`}
           company={companyInfo.name || `Yield`}
           socials={companyInfo.socials || []}
           email={companyInfo.email || `info@yield.is`}
           city={companyInfo.city || `Chicago`}
           dark={dark}
-        />
+        /> */}
         {bgImage ? (
           <div
             className="background-image inline-block fixed bottom-0 left-0 w-full h-full"

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { graphql } from 'gatsby'
 import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import Modal from 'react-modal'
-import { X } from 'react-feather'
+import { X, ArrowUpRight } from 'react-feather'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Select from 'react-select'
 
@@ -20,6 +20,9 @@ import { logEvent } from '../utils/analytics'
 if (typeof window !== 'undefined') {
   Modal.setAppElement('body')
 }
+
+const classLinks =
+  'flex justify-items-start items-center flex-row align-middle w-full font-normal inherit text-base mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
 
 const borrow = {
   heading: 'Borrow today & pay fixed interest.',
@@ -62,6 +65,22 @@ const series = [
 
 export const query = graphql`
   query IndexPageQuery {
+    companyInfo: sanityCompanyInfo(_id: { regex: "/(drafts.|)companyInfo/" }) {
+      country
+      socials {
+        title
+        image {
+          asset {
+            _id
+          }
+        }
+        url
+      }
+      email
+      city
+      name
+    }
+
     site: sanitySiteSettings(_id: { regex: "/(drafts.|)siteSettings/" }) {
       title
       description
@@ -130,8 +149,11 @@ const IndexPage = props => {
     )
   }
 
+  const companyInfo = (data || {}).companyInfo
   const site = (data || {}).site
   const page = (data || {}).page
+
+  console.log(companyInfo)
 
   if (!site) {
     throw new Error(
@@ -144,6 +166,40 @@ const IndexPage = props => {
       'Missing "Pages > Home". Open the studio at http://localhost:3333 and add some content to "Pages > Home" and restart the development server.'
     )
   }
+
+  const rightLinks = [
+    {
+      title: 'Follow us',
+      list: companyInfo.socials.map(social => {
+        return {
+          external: true,
+          title: social.title,
+          image: social.image,
+          link: social.url
+        }
+      })
+    },
+    {
+      title: 'Resources',
+      list: [
+        {
+          external: true,
+          title: 'Blog',
+          link: 'https://medium.com/yield-protocol'
+        },
+        {
+          external: true,
+          title: 'White paper',
+          link: '/Yield.pdf'
+        },
+        {
+          external: true,
+          title: 'YieldSpace Paper',
+          link: '/YieldSpace.pdf'
+        }
+      ]
+    }
+  ]
 
   const SignupForm = ({ status, message, onValidated }) => {
     let email
@@ -207,6 +263,48 @@ const IndexPage = props => {
       action: 'Switched Series',
       label: `Switched to ${series.label}`
     })
+  }
+
+  const LinkComponent = ({ title, list }) =>
+    list.map((item, index) =>
+      item.external ? (
+        <a className={classLinks} target="_blank" href={item.link} key={`link-external-${index}`}>
+          {item.image ? (
+            <img
+              className="inline-block align-middle mr-2 h-4 w-4 contain"
+              // src={imageUrlFor(buildImageObj(item.image))}
+              src={getAsset(item.title.toLowerCase())}
+            />
+          ) : null}{' '}
+          {item.title} {item.cta}
+          <ArrowUpRight className="ml-2" color="white" />
+        </a>
+      ) : (
+        <Link className={classLinks} to={item.link} key={`link-internal-${index}`}>
+          {item.title}
+        </Link>
+      )
+    )
+
+  const getAsset = title => {
+    switch (title) {
+      case 'twitter':
+        return '/social/twitter.svg'
+        break
+      case 'discord':
+        return '/social/discord.svg'
+        break
+      case 'github':
+        return '/social/github.svg'
+        break
+      case 'docs':
+        return '/social/book.svg'
+        break
+      case 'defi pulse':
+        return '/social/defipulse.svg'
+      default:
+        break
+    }
   }
 
   const switchTabs = index => {
@@ -302,13 +400,14 @@ const IndexPage = props => {
       <ContainerFull padding="p-0">
         <div className="h-full app">
           {/* Form */}
-          <div className="h-full pt-32 pb-4 md:py-32 px-5 md:px-12 series text-center">
+          <div className="pt-32 pb-4 md:py-32 px-5 md:px-12 series text-center">
+            <h2 className="text-2xl font-semibold mb-4">{tab.heading}</h2>
             <div className="block mx-auto max-w-xs mb-4 md:mb-8">
               <p className="text-orange-300 font-bold tracking-widest text-3xl uppercase m-0">
                 {selectedSeries.date}
               </p>
               <h1 className="text-6xl font-semibold p-0 m-0">{selectedSeries.apr}%</h1>
-              <p className="text-xl font-normal mb-8 text-indigo-200">Fixed rate interest</p>
+              {/* <p className="text-xl font-normal mb-8 text-indigo-200">Fixed rate interest</p> */}
               <strong className="block text-xs uppercase text-indigo-600 tracking-widest mb-2">
                 Change series
               </strong>
@@ -337,28 +436,34 @@ const IndexPage = props => {
                   value={amount}
                   id="amount"
                 />
+                <button
+                  className="inline-block relative w-full rounded-md bg-white text-indigo-700 font-bold py-3 px-8 my-4 link"
+                  type="submit"
+                >
+                  {tab.cta} {amount} DAI
+                </button>
               </form>
             </div>
           </div>
           {/* Right  */}
           <div className="h-full py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest">
-            <h2 className="text-2xl font-semibold">{tab.heading}</h2>
-            <button
-              className="inline-block relative w-full rounded-md bg-white text-indigo-700 font-bold py-4 px-8 my-8 link"
-              onClick={e => formSubmit(e)}
-            >
-              {tab.cta} {amount} DAI
+            <h3 className="inline-block relative w-full mb-4 text-xl font-bold">
+              Learn more about us
+            </h3>
+            <div className="w-full">
+              {rightLinks.map((object, index) => (
+                <LinkComponent title={object.title} list={object.list} key={index} />
+              ))}
+            </div>
+            <hr className="w-12 border-4 border-white rounded-full mx-0 my-4" />
+            <button className={classLinks} onClick={() => openModal()}>
+              Sign up for our mailing list
             </button>
-            <p className="text-sm text-gray-500 tracking-wide mb-8">
+            <hr className="w-12 border-4 border-white rounded-full mx-0 my-4" />
+            <p className="text-xs text-gray-500 tracking-wide mb-8">
               Interest rates shown are market rates and are subject to change. Your rate may vary
               based on the amount borrowed. Rates shown are for information purposes only.
             </p>
-            <button
-              className="inline-block relative w-full py-2 text-sm underline text-left"
-              onClick={() => openModal()}
-            >
-              Sign up for our mailing list
-            </button>
           </div>
         </div>
       </ContainerFull>

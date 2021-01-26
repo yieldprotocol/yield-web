@@ -20,7 +20,7 @@ class Button extends React.Component {
     } = this.props
 
     const RenderClass = `${ButtonClass} ${
-      small ? 'text-sm' : large ? 'text-xl' : 'font-bold text-base'
+      small ? 'text-sm' : large ? 'text-lg' : 'font-bold text-base'
     } ${gradient ? 'gradient-button font-bold' : ''} ${
       outlined
         ? 'border-2 border-solid border-indigo-700 bg-transparent text-indigo-700 px-4 py-3'

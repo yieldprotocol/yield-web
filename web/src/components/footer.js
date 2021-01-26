@@ -69,10 +69,13 @@ const Footer = class extends React.Component {
           break
         case 'discord':
           return '/social/discord.svg'
+          break
         case 'github':
           return '/social/github.svg'
+          break
         case 'docs':
           return '/social/book.svg'
+          break
         case 'defi pulse':
           return '/social/defipulse.svg'
         default:
