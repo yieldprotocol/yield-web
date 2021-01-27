@@ -35,9 +35,24 @@ const Header = class extends React.Component {
 
     const RightNav = () => (
       <div className="relative w-auto tl tr-l">
-        <Button external primary text="Pool &amp; rate lock" to="https://app.yield.is" />
+        <Button external primary text="Use app" to="https://app.yield.is" />
       </div>
     )
+
+    const links = [
+      {
+        link: '//app.yield.is/#/borrow/',
+        title: 'Borrow'
+      },
+      {
+        link: '//app.yield.is/#/lend/',
+        title: 'Lend'
+      },
+      {
+        link: '//app.yield.is/#/pool/',
+        title: 'Provide Liquidity'
+      }
+    ]
 
     return (
       <nav
@@ -51,6 +66,22 @@ const Header = class extends React.Component {
           <div className="flex w-full justify-between items-center">
             {/* Left */}
             <Logotype company={company} dark={dark} />
+            <div className="text-right md:text-center w-full md:w-auto">
+              {links.map(item => (
+                <a
+                  className="inline-block relative text-xs md:text-base text-white leading-3 mr-2 md:mr-4"
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={item.title}
+                  style={{
+                    top: '0.1rem'
+                  }}
+                >
+                  {item.title}
+                </a>
+              ))}
+            </div>
             {/* Right */}
             <div className="hidden md:inline-block relative tr">
               <RightNav />

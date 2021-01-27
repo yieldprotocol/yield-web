@@ -401,13 +401,11 @@ const IndexPage = props => {
         <div className="h-full app">
           {/* Form */}
           <div className="pt-32 pb-4 md:py-32 px-5 md:px-12 series text-center">
-            <h2 className="text-2xl font-semibold mb-4">{tab.heading}</h2>
             <div className="block mx-auto max-w-xs mb-4 md:mb-8">
               <p className="text-orange-300 font-bold tracking-widest text-xl md:text-3xl uppercase m-0">
                 {selectedSeries.date}
               </p>
               <h1 className="text-5xl md:text-6xl font-semibold p-0 m-0">{selectedSeries.apr}%</h1>
-              {/* <p className="text-xl font-normal mb-8 text-indigo-200">Fixed rate interest</p> */}
               <strong className="block text-xs uppercase text-indigo-600 tracking-widest mb-2">
                 Change series
               </strong>
@@ -446,24 +444,16 @@ const IndexPage = props => {
             </div>
           </div>
           {/* Right  */}
-          <div className="h-full py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest">
-            <h3 className="inline-block relative w-full mb-4 text-xl font-bold">
-              Learn more about us
-            </h3>
-            <div className="w-full">
-              {rightLinks.map((object, index) => (
-                <LinkComponent title={object.title} list={object.list} key={index} />
-              ))}
-            </div>
+          <div className="py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest">
+            <h2 className="text-2xl font-semibold mb-4">{tab.heading}</h2>
+            <p className="text-sm text-gray-500 tracking-wide mb-8">
+              Interest rates shown are market rates and are subject to change. Your rate may vary
+              based on the amount borrowed. Rates shown are for information purposes only.
+            </p>
             <hr className="w-12 border-4 border-white rounded-full mx-0 my-4" />
             <button className={classLinks} onClick={() => openModal()}>
               Sign up for our mailing list
             </button>
-            <hr className="w-12 border-4 border-white rounded-full mx-0 my-4" />
-            <p className="text-xs text-gray-500 tracking-wide mb-8">
-              Interest rates shown are market rates and are subject to change. Your rate may vary
-              based on the amount borrowed. Rates shown are for information purposes only.
-            </p>
           </div>
         </div>
       </ContainerFull>

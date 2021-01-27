@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'gatsby'
+import { ArrowUpRight } from 'react-feather'
 
-const ButtonClass = 'inline-block relative text-center rounded-lg'
+const ButtonClass = 'inline-flex items-center text-center rounded-lg'
 
 class Button extends React.Component {
   render() {
@@ -36,6 +37,7 @@ class Button extends React.Component {
         {external ? (
           <a className={RenderClass} target="_blank" href={to} rel="noopener noreferrer">
             {text || `Learn more`}
+            <ArrowUpRight className="ml-2" color="white" />
           </a>
         ) : type ? (
           <button className={RenderClass} type={type}>
