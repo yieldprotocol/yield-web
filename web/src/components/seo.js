@@ -98,7 +98,7 @@ function SEO({ description, image, lang, meta, keywords = [], title, url }) {
               },
               {
                 property: 'og:image',
-                content: socialImage
+                content: '/img/social.png'
               },
               {
                 property: 'og:title',
