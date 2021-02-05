@@ -147,6 +147,7 @@ const IndexPage = props => {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [selectedSeries, setSelectedSeries] = useState(series[0])
+  const [isDisabled, setIsDisabled] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(100)
   const [tab, setTab] = useState(borrow)
@@ -282,6 +283,7 @@ const IndexPage = props => {
     }
     setTimeout(() => selectRef.current.select.focus(), 1)
     setIsLoading(false)
+    setIsDisabled(false)
   }
 
   // Run on page load
@@ -492,10 +494,11 @@ const IndexPage = props => {
               <Select
                 className="select"
                 isSearchable={false}
+                isDisabled={isDisabled}
+                isLoading={isLoading}
                 onChange={selectedSeries => switchSeries(selectedSeries)}
                 isMulti={false}
                 options={series}
-                isLoading={isLoading}
                 value={selectedSeries}
                 ref={selectRef}
               />
@@ -518,6 +521,7 @@ const IndexPage = props => {
                 />
                 <button
                   className="inline-block relative w-full rounded-md bg-white text-indigo-700 font-bold py-3 px-8 my-4 link"
+                  disabled={isDisabled}
                   type="submit"
                 >
                   {tab.cta} {amount} DAI
