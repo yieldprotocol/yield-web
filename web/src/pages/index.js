@@ -281,6 +281,7 @@ const IndexPage = props => {
       })
     }
     setTimeout(() => selectRef.current.select.focus(), 1)
+    setIsLoading(false)
   }
 
   // Run on page load
@@ -289,8 +290,6 @@ const IndexPage = props => {
     getImports()
     // Get series rates and update
     updateSeries()
-    // Set loading to false
-    setIsLoading(false)
   }, [])
 
   function openModal() {
@@ -323,40 +322,6 @@ const IndexPage = props => {
       'Missing "Pages > Home". Open the studio at http://localhost:3333 and add some content to "Pages > Home" and restart the development server.'
     )
   }
-
-  // const rightLinks = [
-  //   {
-  //     title: 'Follow us',
-  //     list: companyInfo.socials.map(social => {
-  //       return {
-  //         external: true,
-  //         title: social.title,
-  //         image: social.image,
-  //         link: social.url
-  //       }
-  //     })
-  //   },
-  //   {
-  //     title: 'Resources',
-  //     list: [
-  //       {
-  //         external: true,
-  //         title: 'Blog',
-  //         link: 'https://medium.com/yield-protocol'
-  //       },
-  //       {
-  //         external: true,
-  //         title: 'White paper',
-  //         link: '/Yield.pdf'
-  //       },
-  //       {
-  //         external: true,
-  //         title: 'YieldSpace Paper',
-  //         link: '/YieldSpace.pdf'
-  //       }
-  //     ]
-  //   }
-  // ]
 
   const SignupForm = ({ status, message, onValidated }) => {
     let email
@@ -420,48 +385,6 @@ const IndexPage = props => {
       action: 'Switched Series',
       label: `Switched to ${series.date} • ${series.apr}`
     })
-  }
-
-  // const LinkComponent = ({ title, list }) =>
-  //   list.map((item, index) =>
-  //     item.external ? (
-  //       <a className={classLinks} target="_blank" href={item.link} key={`link-external-${index}`}>
-  //         {item.image ? (
-  //           <img
-  //             className="inline-block align-middle mr-2 h-4 w-4 contain"
-  //             // src={imageUrlFor(buildImageObj(item.image))}
-  //             src={getAsset(item.title.toLowerCase())}
-  //           />
-  //         ) : null}{' '}
-  //         {item.title} {item.cta}
-  //         <ArrowUpRight className="ml-2" color="white" />
-  //       </a>
-  //     ) : (
-  //       <Link className={classLinks} to={item.link} key={`link-internal-${index}`}>
-  //         {item.title}
-  //       </Link>
-  //     )
-  //   )
-
-  const getAsset = title => {
-    switch (title) {
-      case 'twitter':
-        return '/social/twitter.svg'
-        break
-      case 'discord':
-        return '/social/discord.svg'
-        break
-      case 'github':
-        return '/social/github.svg'
-        break
-      case 'docs':
-        return '/social/book.svg'
-        break
-      case 'defi pulse':
-        return '/social/defipulse.svg'
-      default:
-        break
-    }
   }
 
   const switchTabs = index => {
