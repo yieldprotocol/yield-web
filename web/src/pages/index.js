@@ -41,13 +41,13 @@ const series = [
     value: '1617235199',
     label: 'March 2021 • APR: 3.86',
     date: 'March 2021',
-    apr: 3.86
+    apr: 4.02
   },
   {
     value: '1625097599',
     label: 'June 2021 • APR: 3.61',
     date: 'June 2021',
-    apr: 3.61
+    apr: 6.95
   },
   {
     value: '1633046399',
