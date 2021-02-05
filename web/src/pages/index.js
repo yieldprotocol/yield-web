@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { graphql } from 'gatsby'
 import MailchimpSubscribe from 'react-mailchimp-subscribe'
 import Modal from 'react-modal'
-import { X, ArrowUpRight } from 'react-feather'
+import { X } from 'react-feather'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Select from 'react-select'
 
@@ -17,9 +17,22 @@ import Layout from '../containers/layout'
 
 import { logEvent } from '../utils/analytics'
 
+// Pool
+import Pool from '../contracts/pool.json'
+
 if (typeof window !== 'undefined') {
   Modal.setAppElement('body')
 }
+
+// fyDai ABI
+const fyDai = [
+  'function maturity() view returns (uint256)',
+  'function isMature() view returns(bool)',
+  'function mature()',
+  'function name() view returns (string)',
+  'function balanceOf(address) view returns (uint256)',
+  'function redeem(address, address, uint256)'
+]
 
 const classLinks =
   'flex justify-items-start items-center flex-row align-middle w-full font-normal inherit text-base mb-2 md:mb-0 mr-0 md:mr-8 link py-1'
@@ -38,26 +51,30 @@ const lend = {
 
 const series = [
   {
+    address: '0xb39221E6790Ae8360B7E8C1c7221900fad9397f9',
     value: '1617235199',
-    label: 'March 2021 • APR: 3.86',
+    label: 'March 2021 • APR:',
     date: 'March 2021',
     apr: 4.02
   },
   {
+    address: '0x250f8d88173E0D9b692A9742f54e87E01A9FA54E',
     value: '1625097599',
-    label: 'June 2021 • APR: 3.61',
+    label: 'June 2021 • APR:',
     date: 'June 2021',
     apr: 6.95
   },
   {
+    address: '0x8EcC94a91b5CF03927f5eb8c60ABbDf48F82b0b3',
     value: '1633046399',
-    label: 'September 2021 • APR: 2.84',
+    label: 'September 2021 • APR:',
     date: 'September 2021',
     apr: 2.84
   },
   {
+    address: '0x5591f644B377eD784e558D4BE1bbA78f5a26bdCd',
     value: '1640995199',
-    label: 'December 2021 • APR: 3.84',
+    label: 'December 2021 • APR:',
     date: 'December 2021',
     apr: 3.84
   }
@@ -130,8 +147,151 @@ const IndexPage = props => {
 
   const [modalIsOpen, setIsOpen] = useState(false)
   const [selectedSeries, setSelectedSeries] = useState(series[0])
+  const [isLoading, setIsLoading] = useState(true)
   const [amount, setAmount] = useState(100)
   const [tab, setTab] = useState(borrow)
+
+  const selectRef = useRef()
+
+  // Reducer
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'updateRates':
+        return {
+          ...state,
+          seriesRates: action.payload
+        }
+      default:
+        return state
+    }
+  }
+
+  // Seconds per year
+  const secondsPerYear = 365.25 * 24 * 60 * 60
+
+  // Set state for yield
+  const initState = {
+    seriesRates: new Map()
+  }
+
+  const [state, dispatch] = React.useReducer(reducer, initState)
+
+  // Update imports
+  let ethers
+  let provider
+  const getImports = async () => {
+    if (process.browser && typeof window !== 'undefined') {
+      ethers = require('ethers')
+
+      // Default provider
+      provider = ethers.getDefaultProvider('homestead', {
+        etherscan: process.env.ETHERSCAN_API_KEY,
+        infura: process.env.INFURA_PROJECT_ID,
+        alchemy: process.env.ALCHEMY_API_KEY
+      })
+    }
+  }
+
+  // Round function
+  function roundToTwo(num) {
+    return +(Math.round(num + 'e+2') + 'e-2')
+  }
+
+  // Get the yield market rates for a particular set of series
+  const _getRates = async series => {
+    const ratesData = await Promise.allSettled(
+      series.map(async x => {
+        const contract = new ethers.Contract(x.address, Pool.abi, provider)
+
+        const fyDaiAddress = await contract.fyDai()
+        const fyDaiContract = new ethers.Contract(fyDaiAddress, fyDai, provider)
+        const fyDaiMaturity = await fyDaiContract.maturity()
+        const parsedfyDaiMaturity = new Date(parseInt(fyDaiMaturity.toString()) * 1000)
+
+        const amount = 1
+        const parsedAmount = ethers.BigNumber.isBigNumber(amount)
+          ? amount
+          : ethers.utils.parseEther(amount.toString())
+
+        const preview = await contract.sellFYDaiPreview(parsedAmount)
+
+        const inEther = ethers.utils.formatEther(preview.toString())
+        const object = {
+          address: x.address,
+          maturity: parsedfyDaiMaturity,
+          isMature: parsedfyDaiMaturity < Math.round(new Date().getTime() / 1000),
+          sellPreview: inEther
+        }
+        return object
+      }, state.seriesRates)
+    )
+
+    const filteredRates = ratesData.filter(p => {
+      return p.status === 'fulfilled'
+    })
+
+    /* update context state and return */
+    dispatch({ type: 'updateRates', payload: filteredRates })
+    return filteredRates
+  }
+
+  // Annualized yield rate
+  const yieldAPR = (
+    _rate,
+    _maturity,
+    _fromDate = Math.round(new Date().getTime() / 1000) // if not provided, defaults to current time.
+  ) => {
+    if (_maturity > Math.round(new Date().getTime() / 1000)) {
+      const secsToMaturity = _maturity / 1000 - _fromDate
+      const propOfYear = secsToMaturity / secondsPerYear
+      const setReturn = parseFloat(1.0) // override to use float
+      const priceRatio = setReturn / _rate
+      const powRatio = 1 / propOfYear
+      const apr = Math.pow(priceRatio, powRatio) - 1
+      return apr * 100
+    }
+    return 0
+  }
+
+  // Update list
+  const updateSeries = async () => {
+    const rates = await _getRates(series)
+    if (rates && rates.length > 0) {
+      rates.map(object => {
+        const getAPR = yieldAPR(
+          object.value.sellPreview, // _rate
+          object.value.maturity // _maturity
+        )
+        const maturity = new Date(object.value.maturity)
+        const maturityYear = maturity.getUTCFullYear()
+        const maturityMonth = maturity.getUTCMonth() + 1
+        const maturityDate = maturity.getUTCDate()
+        const setDate = `${maturityYear}/${maturityMonth}/${maturityDate}`
+        console.log(
+          `APR: ${getAPR} for ${object.value.address}, sellPreview: ${object.value.sellPreview}, maturing on ${setDate}`
+        )
+        const foundIndex = series.findIndex(s => {
+          return s.address === object.value.address
+        })
+        if (foundIndex > -1) {
+          const setAPR = roundToTwo(getAPR)
+          series[foundIndex].apr = setAPR
+          series[foundIndex].label = `${series[foundIndex].label} ${setAPR}`
+        }
+      })
+    }
+    setTimeout(() => selectRef.current.select.focus(), 1)
+  }
+
+  // Run on page load
+  useEffect(() => {
+    // Get these imports if browser
+    getImports()
+    // Get series rates and update
+    updateSeries()
+    // Set loading to false
+    setIsLoading(false)
+  }, [])
 
   function openModal() {
     setIsOpen(true)
@@ -149,11 +309,8 @@ const IndexPage = props => {
     )
   }
 
-  const companyInfo = (data || {}).companyInfo
   const site = (data || {}).site
   const page = (data || {}).page
-
-  console.log(companyInfo)
 
   if (!site) {
     throw new Error(
@@ -167,39 +324,39 @@ const IndexPage = props => {
     )
   }
 
-  const rightLinks = [
-    {
-      title: 'Follow us',
-      list: companyInfo.socials.map(social => {
-        return {
-          external: true,
-          title: social.title,
-          image: social.image,
-          link: social.url
-        }
-      })
-    },
-    {
-      title: 'Resources',
-      list: [
-        {
-          external: true,
-          title: 'Blog',
-          link: 'https://medium.com/yield-protocol'
-        },
-        {
-          external: true,
-          title: 'White paper',
-          link: '/Yield.pdf'
-        },
-        {
-          external: true,
-          title: 'YieldSpace Paper',
-          link: '/YieldSpace.pdf'
-        }
-      ]
-    }
-  ]
+  // const rightLinks = [
+  //   {
+  //     title: 'Follow us',
+  //     list: companyInfo.socials.map(social => {
+  //       return {
+  //         external: true,
+  //         title: social.title,
+  //         image: social.image,
+  //         link: social.url
+  //       }
+  //     })
+  //   },
+  //   {
+  //     title: 'Resources',
+  //     list: [
+  //       {
+  //         external: true,
+  //         title: 'Blog',
+  //         link: 'https://medium.com/yield-protocol'
+  //       },
+  //       {
+  //         external: true,
+  //         title: 'White paper',
+  //         link: '/Yield.pdf'
+  //       },
+  //       {
+  //         external: true,
+  //         title: 'YieldSpace Paper',
+  //         link: '/YieldSpace.pdf'
+  //       }
+  //     ]
+  //   }
+  // ]
 
   const SignupForm = ({ status, message, onValidated }) => {
     let email
@@ -261,30 +418,30 @@ const IndexPage = props => {
     logEvent({
       category: 'Landing Page',
       action: 'Switched Series',
-      label: `Switched to ${series.label}`
+      label: `Switched to ${series.date} • ${series.apr}`
     })
   }
 
-  const LinkComponent = ({ title, list }) =>
-    list.map((item, index) =>
-      item.external ? (
-        <a className={classLinks} target="_blank" href={item.link} key={`link-external-${index}`}>
-          {item.image ? (
-            <img
-              className="inline-block align-middle mr-2 h-4 w-4 contain"
-              // src={imageUrlFor(buildImageObj(item.image))}
-              src={getAsset(item.title.toLowerCase())}
-            />
-          ) : null}{' '}
-          {item.title} {item.cta}
-          <ArrowUpRight className="ml-2" color="white" />
-        </a>
-      ) : (
-        <Link className={classLinks} to={item.link} key={`link-internal-${index}`}>
-          {item.title}
-        </Link>
-      )
-    )
+  // const LinkComponent = ({ title, list }) =>
+  //   list.map((item, index) =>
+  //     item.external ? (
+  //       <a className={classLinks} target="_blank" href={item.link} key={`link-external-${index}`}>
+  //         {item.image ? (
+  //           <img
+  //             className="inline-block align-middle mr-2 h-4 w-4 contain"
+  //             // src={imageUrlFor(buildImageObj(item.image))}
+  //             src={getAsset(item.title.toLowerCase())}
+  //           />
+  //         ) : null}{' '}
+  //         {item.title} {item.cta}
+  //         <ArrowUpRight className="ml-2" color="white" />
+  //       </a>
+  //     ) : (
+  //       <Link className={classLinks} to={item.link} key={`link-internal-${index}`}>
+  //         {item.title}
+  //       </Link>
+  //     )
+  //   )
 
   const getAsset = title => {
     switch (title) {
@@ -349,7 +506,7 @@ const IndexPage = props => {
     logEvent({
       category: 'Landing Page',
       action: 'Used App',
-      label: `Type: ${tab.cta}, Series: ${selectedSeries.label}, Amount: ${amount}`
+      label: `Type: ${tab.cta}, Series: ${selectedSeries.label} • APR: ${selectedSeries.apr}, Amount: ${amount}`
     })
   }
 
@@ -415,7 +572,9 @@ const IndexPage = props => {
                 onChange={selectedSeries => switchSeries(selectedSeries)}
                 isMulti={false}
                 options={series}
+                isLoading={isLoading}
                 value={selectedSeries}
+                ref={selectRef}
               />
               <Tabs className="my-8" onSelect={index => switchTabs(index)}>
                 <TabList className="flex align-middle justify-center rounded-full w-auto">
