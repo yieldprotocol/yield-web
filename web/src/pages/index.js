@@ -184,11 +184,11 @@ const IndexPage = props => {
     if (process.browser && typeof window !== 'undefined') {
       ethers = require('ethers')
 
-      // Default provider
+      // Default provider (homestead = mainnet)
       provider = ethers.getDefaultProvider('homestead', {
         etherscan: process.env.ETHERSCAN_API_KEY,
         infura: process.env.INFURA_PROJECT_ID,
-        alchemy: process.env.ALCHEMY_API_KEY
+        // alchemy: process.env.ALCHEMY_API_KEY
       })
     }
   }
