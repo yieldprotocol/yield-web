@@ -188,7 +188,7 @@ const IndexPage = props => {
       provider = ethers.getDefaultProvider('homestead', {
         etherscan: process.env.ETHERSCAN_API_KEY,
         infura: process.env.INFURA_PROJECT_ID,
-        // alchemy: process.env.ALCHEMY_API_KEY
+        alchemy: process.env.ALCHEMY_API_KEY
       })
     }
   }
@@ -530,7 +530,7 @@ const IndexPage = props => {
             </div>
           </div>
           {/* Right  */}
-          <div className="py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest">
+          <div className="py-12 md:py-48 px-5 md:px-12 bg-indigo-800 interest md:h-full">
             <h2 className="text-2xl font-semibold mb-4">{tab.heading}</h2>
             <p className="text-sm text-gray-500 tracking-wide mb-8">
               Interest rates shown are market rates and are subject to change. Your rate may vary
