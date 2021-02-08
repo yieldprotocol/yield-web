@@ -184,12 +184,6 @@ const IndexPage = props => {
     if (process.browser && typeof window !== 'undefined') {
       ethers = require('ethers')
 
-      console.table(
-        process.env.GATSBY_ETHERSCAN_API_KEY,
-        process.env.GATSBY_INFURA_PROJECT_ID,
-        process.env.GATSBY_ALCHEMY_API_KEY
-      )
-
       // Default provider (homestead = mainnet)
       provider = ethers.getDefaultProvider('homestead', {
         etherscan: process.env.GATSBY_ETHERSCAN_API_KEY,
