@@ -185,16 +185,16 @@ const IndexPage = props => {
       ethers = require('ethers')
 
       console.table(
-        process.env.ETHERSCAN_API_KEY,
-        process.env.INFURA_PROJECT_ID,
-        process.env.ALCHEMY_API_KEY
+        process.env.GATSBY_ETHERSCAN_API_KEY,
+        process.env.GATSBY_INFURA_PROJECT_ID,
+        process.env.GATSBY_ALCHEMY_API_KEY
       )
 
       // Default provider (homestead = mainnet)
       provider = ethers.getDefaultProvider('homestead', {
-        etherscan: process.env.ETHERSCAN_API_KEY,
-        infura: process.env.INFURA_PROJECT_ID,
-        alchemy: process.env.ALCHEMY_API_KEY
+        etherscan: process.env.GATSBY_ETHERSCAN_API_KEY,
+        infura: process.env.GATSBY_INFURA_PROJECT_ID,
+        alchemy: process.env.GATSBY_ALCHEMY_API_KEY
       })
     }
   }
