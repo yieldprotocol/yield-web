@@ -184,6 +184,12 @@ const IndexPage = props => {
     if (process.browser && typeof window !== 'undefined') {
       ethers = require('ethers')
 
+      console.table(
+        process.env.ETHERSCAN_API_KEY,
+        process.env.INFURA_PROJECT_ID,
+        process.env.ALCHEMY_API_KEY
+      )
+
       // Default provider (homestead = mainnet)
       provider = ethers.getDefaultProvider('homestead', {
         etherscan: process.env.ETHERSCAN_API_KEY,
