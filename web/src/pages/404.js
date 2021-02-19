@@ -13,8 +13,7 @@ const NotFoundPage = () => (
         <div className="inline-block w-full max-w-3xl">
           <h1 className="text-2xl lg:text-5xl font-semibold mb-6">Nothing here...</h1>
           <h2 className="text-sm lg:text-xl text-gray-600">
-            Go back to the home page please or wait till we build out the site in more details.
-            Thanks!
+            Go back to the home page please... thanks!
           </h2>
           <div className="inline-block w-full max-w-sm">
             <img

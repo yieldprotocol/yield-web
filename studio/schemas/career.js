@@ -37,7 +37,7 @@ export default {
     {
       name: "apply",
       title: "Apply link (optional)",
-      description: "Add a link to apply for this role, by default it'll open an email window going to `careers@yield.is`",
+      description: "Add a link to apply for this role, by default it'll open an email window going to `contact@yield.is`",
       type: "url"
     },
   ],

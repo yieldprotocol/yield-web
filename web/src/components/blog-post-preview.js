@@ -1,6 +1,5 @@
 import { Link } from 'gatsby'
 import React from 'react'
-import EllipsisText from 'react-ellipsis-text'
 
 import BlockText from './block-text'
 
