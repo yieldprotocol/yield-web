@@ -31,8 +31,6 @@ const CareerTemplate = props => {
   const { data, errors } = props
   const career = data && data.career
 
-  console.log(career)
-
   return (
     <Layout>
       {errors && <SEO title="GraphQL Error" />}
