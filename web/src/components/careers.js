@@ -131,12 +131,7 @@ class Careers extends React.Component {
           ))
         ) : (
           <div className="inline-block relative w-full mt-12">
-            <Button
-              outlined
-              external
-              text="Get in touch"
-              to={`mailto:contact@yield.is?subject=${career.title || ''}`}
-            />
+            <Button outlined external text="Get in touch" to={`mailto:contact@yield.is`} />
           </div>
         )}
       </>

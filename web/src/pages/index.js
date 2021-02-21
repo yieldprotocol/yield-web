@@ -281,17 +281,36 @@ const IndexPage = props => {
         }
       })
     }
-    setTimeout(() => selectRef.current.select.focus(), 1)
-    setIsLoading(false)
-    setIsDisabled(false)
+    // setTimeout(() => selectRef.current.select.focus(), 1)
   }
 
   // Run on page load
   useEffect(() => {
+    // Set mounted
+    let isMounted = true
+    // Set var for timer
+    let timer
     // Get these imports if browser
     getImports()
     // Get series rates and update
-    updateSeries()
+    updateSeries().then(() => {
+      if (isMounted) {
+        // Timer
+        if (selectRef && selectRef.current && selectRef.current.select) {
+          timer = setTimeout(
+            () => selectRef && selectRef.current && selectRef.current.select.focus(),
+            25
+          )
+        }
+        setIsDisabled(false)
+        setIsLoading(false)
+      }
+    })
+    // this will clear Timeout when component unmount like in willComponentUnmount
+    return () => {
+      clearTimeout(timer)
+      isMounted = false
+    }
   }, [])
 
   function openModal() {

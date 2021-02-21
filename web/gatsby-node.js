@@ -124,7 +124,7 @@ async function createBlogPages(graphql, actions, reporter) {
 }
 
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  await createCategoryPages(graphql, actions, reporter)
+  // await createCategoryPages(graphql, actions, reporter)
   await createCareerPages(graphql, actions, reporter)
-  await createBlogPages(graphql, actions, reporter)
+  // await createBlogPages(graphql, actions, reporter)
 }
