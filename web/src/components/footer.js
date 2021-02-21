@@ -57,6 +57,10 @@ const Footer = class extends React.Component {
             external: true,
             title: 'YieldSpace Paper',
             link: '/YieldSpace.pdf'
+          },
+          {
+            title: 'Careers',
+            link: '/careers',
           }
         ]
       }

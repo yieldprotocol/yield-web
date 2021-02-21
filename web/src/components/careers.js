@@ -111,9 +111,9 @@ class Careers extends React.Component {
                   </strong>
                   <p className={ParagraphClass}>{career.excerpt}</p>
                 </div>
-                <div className="flex items-center justify-end">
+                <div className="flex items-center justify-start md:justify-end">
                   <button
-                    className="inline-flex items-center text-center rounded-lg border-2 border-solid border-white bg-transparent text-white px-4 py-2 font-bold hover:bg-indigo-700 mr-4"
+                    className="inline-flex items-center text-center rounded-lg border-2 border-solid border-white bg-transparent text-white px-2 md:px-4 py-1 md:py-2 font-bold hover:bg-indigo-700 mr-4"
                     onClick={() => this.openModal(career)}
                   >
                     View

@@ -54,11 +54,6 @@ const Header = class extends React.Component {
       {
         link: '//app.yield.is/#/pool/',
         title: 'Provide Liquidity'
-      },
-      {
-        link: '/careers',
-        title: 'Careers',
-        internal: true
       }
     ]
 
@@ -75,33 +70,20 @@ const Header = class extends React.Component {
             {/* Left */}
             <Logotype company={company} dark={dark} />
             <div className="text-right md:text-center w-full md:w-auto">
-              {links.map(item =>
-                item.internal ? (
-                  <Link
-                    className={linkClass}
-                    key={item.title}
-                    to={item.link}
-                    style={{
-                      top: '0.1rem'
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                ) : (
-                  <a
-                    className={linkClass}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={item.title}
-                    style={{
-                      top: '0.1rem'
-                    }}
-                  >
-                    {item.title}
-                  </a>
-                )
-              )}
+              {links.map(item => (
+                <a
+                  className={linkClass}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={item.title}
+                  style={{
+                    top: '0.1rem'
+                  }}
+                >
+                  {item.title}
+                </a>
+              ))}
             </div>
             {/* Right */}
             <div className="hidden md:inline-block relative tr">
