@@ -34,12 +34,14 @@ module.exports = {
       resolve: 'gatsby-plugin-netlify',
       options: {
         headers: {
-          '/*': [
-            'Access-Control-Allow-Origin: *',
-            'X-XSS-Protection: 0;',
-            'X-Frame-Options: ALLOWALL'
-          ]
+          "/*": [
+            "X-XSS-Protection: 1; mode=block",
+            "X-Content-Type-Options: nosniff",
+            "Referrer-Policy: same-origin",
+            `Content-Security-Policy: frame-ancestors 'self' https://yield.sanity.studio`,
+          ],
         },
+      },
         mergeSecurityHeaders: true, // boolean to turn off the default security headers
         mergeLinkHeaders: true, // boolean to turn off the default gatsby js headers
         mergeCachingHeaders: true, // boolean to turn off the default caching headers
