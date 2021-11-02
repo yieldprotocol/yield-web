@@ -481,8 +481,8 @@ const IndexPage = props => {
         <div className="h-full app">
           {/* Banner */}
           <div className="w-full bg-indigo-600 z-1 absolute top-0 left-0 right-0">
-            <div className="mx-auto px-5 md:px-12 text-center text-white p-4 flex justify-between items-center">
-              <strong className="font-medium">
+            <div className="mx-auto px-5 md:px-12 text-center text-white p-4 flex flex-col md:flex-row justify-between items-center">
+              <strong className="font-medium mb-2 md:mb-0">
                 Yield Protocol v2 is live, try it out at{' '}
                 <a className="underline" href="//yieldprotocol.com/" target="_blank" rel="noreferrer noopener">
                   yieldprotocol.com!
