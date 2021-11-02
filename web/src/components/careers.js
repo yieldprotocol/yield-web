@@ -67,7 +67,7 @@ class Careers extends React.Component {
                   Posted on:{' '}
                   {differenceInDays(new Date(listing.publishedAt), new Date()) > 3
                     ? distanceInWords(new Date(listing.publishedAt), new Date())
-                    : format(new Date(listing.publishedAt), 'MMMM Do YYYY')}
+                    : format(new Date(listing.publishedAt), 'MMMM Do yyyy')}
                 </small>
               ) : null}
               {listing._rawBody ? (

@@ -53,7 +53,7 @@ const CareerTemplate = props => {
                 Posted on:{' '}
                 {differenceInDays(new Date(career.publishedAt), new Date()) > 3
                   ? distanceInWords(new Date(career.publishedAt), new Date())
-                  : format(new Date(career.publishedAt), 'MMMM Do YYYY')}
+                  : format(new Date(career.publishedAt), 'MMMM Do yyyy')}
               </small>
             ) : null}
             {career._rawBody ? (

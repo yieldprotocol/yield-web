@@ -40,7 +40,7 @@ function BlogPost(props) {
                 Posted on:{' '}
                 {differenceInDays(new Date(publishedAt), new Date()) > 3
                   ? distanceInWords(new Date(publishedAt), new Date())
-                  : format(new Date(publishedAt), 'MMMM Do YYYY')}
+                  : format(new Date(publishedAt), 'MMMM Do yyyy')}
               </small>
             )}
             <div className={ParagraphClass}>{_rawBody && <BlockContent blocks={_rawBody} />}</div>
