@@ -51,13 +51,6 @@ const lend = {
 
 const series = [
   {
-    address: '0x792F187521fA24e35440BF8a7Db76f9ee0E719ee',
-    value: '1633046399',
-    label: 'September 2021 • APR:',
-    date: 'September 2021',
-    apr: 2.84
-  },
-  {
     address: '0x5591f644B377eD784e558D4BE1bbA78f5a26bdCd',
     value: '1640995199',
     label: 'December 2021 • APR:',
