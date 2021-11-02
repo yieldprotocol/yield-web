@@ -51,7 +51,7 @@ const lend = {
 
 const series = [
   {
-    address: '0x8EcC94a91b5CF03927f5eb8c60ABbDf48F82b0b3',
+    address: '0x792F187521fA24e35440BF8a7Db76f9ee0E719ee',
     value: '1633046399',
     label: 'September 2021 • APR:',
     date: 'September 2021',
@@ -167,7 +167,7 @@ const IndexPage = props => {
   let ethers
   let provider
   const getImports = async () => {
-    if (process.browser && typeof window !== 'undefined') {
+    if (typeof window !== 'undefined') {
       ethers = require('ethers')
 
       // Default provider (homestead = mainnet)
@@ -486,6 +486,18 @@ const IndexPage = props => {
 
       <ContainerFull padding="p-0">
         <div className="h-full app">
+          {/* Banner */}
+          <div className="w-full bg-indigo-600 z-1 absolute top-0 left-0 right-0">
+            <div className="mx-auto px-5 md:px-12 text-center text-white p-4 font-bold flex justify-between items-center">
+              <strong>V2 is live now, try it out!</strong>
+              <a
+                className="inline-block relative w-full md:w-auto rounded-md bg-white text-indigo-700 font-bold py-1 px-4 link"
+                href="//app.yieldprotocol.com/"
+              >
+                Try V2
+              </a>
+            </div>
+          </div>
           {/* Form */}
           <div className="pt-32 pb-4 md:py-32 px-5 md:px-12 series text-center">
             <div className="block mx-auto max-w-xs mb-4 md:mb-8">
