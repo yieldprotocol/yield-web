@@ -5,6 +5,7 @@
   "author": "Rishabh Varshney <it.is.rishabh@gmail.com>",
   "scripts": {
     "clean": "lerna clean",
+    "build": "gatsby build",
     "deploy": "lerna run deploy",
     "empty-cache": "lerna run empty-cache",
     "init": "cd studio && sanity init && lerna run graphql-deploy",
