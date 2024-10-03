@@ -4,9 +4,7 @@
 [build.environment]
   NODE_ENV = "production"
   NODE_VERSION = "16.8.0"
-[[
-redirects
-]]
+[[redirects]]
   from = "/*"
   to = "/closed.html"
   status = 200
