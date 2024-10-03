@@ -1,6 +1,8 @@
 [build]
-  command = "npm run build"
+  base = "web"
+  command = "gatsby build"
   publish = "public"
+
 [build.environment]
   NODE_ENV = "production"
   NODE_VERSION = "16.8.0"
